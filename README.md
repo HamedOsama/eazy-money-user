@@ -1,2 +1,2 @@
 # eazy-money-user
-Creating reposatiry
+Creating repo
