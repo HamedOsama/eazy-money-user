@@ -1,0 +1,100 @@
+<div class="user">
+  <ng-container *ngIf="loading">
+    <app-waiting></app-waiting>
+  </ng-container>
+  <div
+    class="example-container"
+    [class.example-is-mobile]="mobileQuery.matches"
+    [hidden]="loading"
+  >
+    <mat-toolbar
+      color="primary"
+      class="example-toolbar d-flex justify-content-between"
+    >
+      <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon *ngIf="snav.opened">close</mat-icon>
+        <mat-icon *ngIf="!snav.opened">menu</mat-icon>
+      </button>
+      <h1 class="example-app-name">Easy Money</h1>
+    </mat-toolbar>
+
+    <mat-sidenav-container
+      class="example-sidenav-container"
+      [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+    >
+      <mat-sidenav
+        #snav
+        [mode]="mobileQuery.matches ? 'over' : 'side'"
+        [opened]="true"
+        [fixedInViewport]="mobileQuery.matches"
+        fixedTopGap="56"
+      >
+        <div class="user-info">
+          <div class="user-img">
+            <img
+              src="{{ apiRootImage }}{{ loggedUser?.image }}"
+              alt="User image"
+              class="img-fluid"
+              *ngIf="loggedUser?.image"
+            />
+          </div>
+          <div class="info">
+            <h3>{{ loggedUser?.name }}</h3>
+            <p>{{ loggedUser?.email }}</p>
+            <p>{{ loggedUser?.phone }}</p>
+          </div>
+        </div>
+
+        <mat-nav-list>
+          <a
+            mat-list-item
+            [routerLink]="['/seller/dashboard']"
+            routerLinkActive="active"
+            >لوحة التحكم</a
+          >
+          <a
+            mat-list-item
+            [routerLink]="['/seller/profile']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >الملف الشخصي</a
+          >
+          <a
+            mat-list-item
+            [routerLink]="['/seller/all-products']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >تصفح كل المنتجات</a
+          >
+          <a
+            mat-list-item
+            [routerLink]="['/seller/all-private-products']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >تابع كل منتجاتك</a
+          >
+          <a
+            mat-list-item
+            [routerLink]="['/seller/all-orders']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >تابع كل الطلبات علي منتجاتك</a
+          >
+          <a class="logout" mat-list-item (click)="logout()">تسجيل الخروج</a>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <div
+          class="container pt-3 pt-md-2"
+          [@routing-animation]="outlet.isActivated ? outlet.activatedRoute : ''"
+        >
+          <router-outlet
+            #outlet="outlet"
+            (activate)="onActivate($event)"
+          ></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+<main>
+  <div class="container">
+    <div class="main-container">
+      <h2 class="section-heading">
+        ابدا تجارتك دلوقتي وبكل سهولة مع ايزي موني
+      </h2>
+      <p>
+        ايزي موني بيوفرلك منتجات كتيرة ومتنوعة عشان تقدر تتاجر منها براحتك وتحقق
+        <br />
+        اكبر قدر من الارباح وكل ده بيتم بكل سهولة من اي مكان انت تختاره
+      </p>
+      <span class="core-btn" routerLink="/auth/signup">ابدا الان</span>
+    </div>
+  </div>
+  <div class="overlay"></div>
+</main>
+
+<section class="about-us py-5">
+  <div class="container">
+    <h2 class="section-heading">من نحن</h2>
+    <div class="about-us-container">
+      <div>
+        <p>
+          إيزي ماني هي شركة مصرية قام بتأسيسها بعض الشباب المصريين للمساعدة على
+          تسهيل التجارة الإلكترونية في مصر ومنح الجميع فرصة للتجارة عبر الإنترنت
+          عن طريق توفير سلع بسعر مناسب ومساعدتهم في إيصالها لعملائهم في أسرع وقت
+          وأفضل جودة.
+        </p>
+        <span class="core-btn btn-main" routerLink="/sales-website/about-us"
+          >اقرا المزيد</span
+        >
+      </div>
+      <img
+        src="assets/images/sales-website/about-us.svg"
+        alt="About us image"
+      />
+    </div>
+  </div>
+</section>
+
+<section class="start-with-us py-5">
+  <div class="container">
+    <h2 class="section-heading">أزاي تبدا معانا؟</h2>
+    <h3 class="section-sub-heading">
+      سجل علي ايزي موني
+      <span
+        class="btn"
+        [class.active]="marketerActive"
+        (click)="marketerActive = true; merchantActive = false"
+        >كمسوق</span
+      >
+
+      او
+      <span
+        class="btn"
+        [class.active]="merchantActive"
+        (click)="marketerActive = false; merchantActive = true"
+      >
+        كتاجر</span
+      >
+    </h3>
+    <div class="start-with-us-slider">
+      <div
+        class="start-with-us-container marketer"
+        [style.left]="marketerActive ? '0' : '110%'"
+      >
+        <div>
+          <i class="fa-solid fa-user-plus"></i>
+          <span
+            >سجل علي موقع ايزي موني كمسوق
+            <br />
+            <span class="core-btn btn-main" routerLink="/auth/signup"
+              >سجل الان</span
+            >
+          </span>
+        </div>
+        <div>
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span
+            >قم بتصفح المنتجات واختار مجموعة من المنتجات وقم بالتسويق لها</span
+          >
+        </div>
+        <div>
+          <i class="fa-solid fa-truck-fast"></i>
+          <span>سجل عملائك علي ايزي موني حتي نقوم بارسال الطلبات اليهم</span>
+        </div>
+        <div>
+          <i class="fa-solid fa-wallet"></i>
+          <span>ربحك هنحولهولك في حسابك اول منستلم الفلوس من العميل</span>
+        </div>
+      </div>
+      <div
+        class="start-with-us-container merchant"
+        [style.left]="merchantActive ? '0' : '-110%'"
+      >
+        <div>
+          <i class="fa-solid fa-user-plus"></i>
+          <span
+            >سجل علي موقع ايزي موني كتاجر
+            <br />
+            <span class="core-btn btn-main" routerLink="/auth/signup"
+              >سجل الان</span
+            >
+          </span>
+        </div>
+        <div>
+          <i class="fa-solid fa-shop"></i>
+          <span
+            >ابدا بعرض منتجاتك علي ايزي موني حتي يتمكن المسوقين من بيعها</span
+          >
+        </div>
+        <div>
+          <i class="fa-solid fa-truck-fast"></i>
+          <span
+            >عندما يتم التاكيد علي طلبات العملاء من قبل ايزي موني سنقوم بمراسلتك
+            لارسال الطلبات للعملاء</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why-us py-5">
+  <div class="container">
+    <h2 class="section-heading">لماذا نحن؟</h2>
+    <div class="why-us-container mt-3">
+      <div>
+        <img
+          src="assets/images/sales-website/no-money.png"
+          alt="No money image"
+        />
+        <span>يمكنك ان تبدا معنا دون اي رسوم</span>
+      </div>
+      <div>
+        <img
+          src="assets/images/sales-website/work-from-any-where.svg"
+          alt="Work from any where image"
+        />
+        <span>يمكنك ان تعمل من اي مكان</span>
+      </div>
+      <div>
+        <img
+          src="assets/images/sales-website/saving-money.svg"
+          alt="Saving money image"
+        />
+        <span>يمكنك ان تجني الكثير من الاموال من دون اي مجهود</span>
+      </div>
+      <div>
+        <img
+          src="assets/images/sales-website/watch-your-acc-growth.svg"
+          alt="Watch your acc growth image"
+        />
+        <span>سجل الان وتابع نمو ارباحك</span>
+      </div>
+    </div>
+  </div>
+</section>

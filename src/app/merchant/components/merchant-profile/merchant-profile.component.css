@@ -1,0 +1,135 @@
+/* .edit-profile {
+  position: relative;
+  padding: 50px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.edit-profile h2 {
+  font-size: 32px;
+  color: #056eb8;
+  letter-spacing: 1px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #056eb8;
+  padding-bottom: 12px;
+}  */
+
+form {
+  padding: 10px 0;
+}
+
+button {
+  padding: 10px 16px;
+  border-radius: 5px;
+  background-color: #056eb8;
+  color: #fff;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  margin: auto;
+  display: block;
+}
+
+:host::ng-deep
+  button.mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary {
+  background-color: #056eb8;
+}
+
+:host ::ng-deep .mat-form-field {
+  display: block;
+  text-align: right !important;
+  width: 80%;
+  margin: auto;
+}
+
+.pass-error {
+  font-size: 12px;
+  padding: 3px;
+  letter-spacing: 1px;
+  color: #f00;
+}
+
+.edit-profile .image-prev {
+  width: 300px;
+  height: 300px;
+  border: 5px solid #056eb8;
+  border-radius: 50%;
+  margin: 15px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-profile .image-prev img {
+  width: 100%;
+  height: 100%;
+}
+
+.edit-profile .image-prev #changeImgBtn {
+  display: none;
+}
+
+.edit-profile .image-prev .changeImageLabel {
+  width: 100%;
+  height: 30%;
+  color: #056eb8;
+  background-color: rgba(238, 238, 238, 0.6);
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.edit-profile .image-prev .changeImageLabel mat-icon {
+  font-size: 50px;
+  position: absolute;
+  left: 43%;
+  bottom: 50%;
+}
+
+/* .edit-profile .image-prev .file-input span {
+  position: absolute;
+  right: 20%;
+  top: 58%;
+  font-size: 10px;
+  font-weight: 500;
+}
+.edit-profile .image-prev .file-input span.text-success {
+  font-size: 15px;
+  word-break: break-all;
+}
+
+.edit-profile .image-prev .file-input button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 8px 18px;
+  border-radius: 5px;
+  background-color: #056eb8;
+  color: #fff;
+  border: none;
+  letter-spacing: 0.5px;
+  font-size: 15px;
+  z-index: 1;
+} */
+
+/* ------------ Responsive styles ---------------------- */
+@media (max-width: 768px) {
+  :host ::ng-deep .mat-form-field {
+    width: 100% !important;
+  }
+
+  .edit-profile .image-prev {
+    width: 250px;
+    height: 250px;
+  }
+
+  .edit-profile .image-prev .changeImageLabel mat-icon {
+    font-size: 25px;
+    left: 42%;
+    bottom: 25%;
+  }
+}

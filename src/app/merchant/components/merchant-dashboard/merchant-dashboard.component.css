@@ -1,0 +1,55 @@
+:host ::ng-deep .mat-card {
+  padding: 8px !important;
+}
+
+.mat-card-title {
+  font-size: 30px;
+  margin-bottom: 30px;
+  color: #147bc4;
+}
+
+mat-card-subtitle.mat-card-subtitle {
+  font-size: 20px !important;
+  letter-spacing: 0.5px !important;
+  font-weight: 500 !important;
+  color: #555 !important;
+  text-transform: uppercase !important;
+}
+
+:host ::ng-deep .mat-card .fa:not(.fa.fa-arrow-left) {
+  font-size: 25px;
+}
+
+mat-card-actions a {
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+mat-card-actions.cornflowerblue {
+  background-color: cornflowerblue !important;
+}
+.fa.cornflowerblue {
+  color: cornflowerblue !important;
+}
+
+mat-card-actions.darkslateblue {
+  background-color: darkslateblue !important;
+}
+.fa.darkslateblue {
+  color: darkslateblue !important;
+}
+
+/* ********************************** */
+
+.data h2 {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 30px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  color: #056eb8;
+  border-bottom: 3px solid #056eb8;
+  padding-bottom: 8px;
+}

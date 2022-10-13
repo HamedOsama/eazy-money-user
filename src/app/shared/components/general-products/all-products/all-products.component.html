@@ -1,0 +1,100 @@
+<div class="products">
+  <div class="container">
+    <div class="prd-heading row">
+      <div class="heading col-md-4 col-12">
+        <h1>كل المنتجات</h1>
+      </div>
+      <div class="prd-filter col-md-4 col-12">
+        <!-- <mat-icon aria-hidden="false" aria-label="Example shopping_bag icon" routerLink="/cart">shopping_bag</mat-icon> -->
+
+        <!-- Filter By name -->
+        <input
+          class="form-control"
+          name="search"
+          placeholder=" بحث بالاسم "
+          #input
+          required
+          minlength="4"
+          (keyup)="filterByName(input.value)"
+        />
+      </div>
+      <!-- Filter By category -->
+      <div class="prd-filter col-md-4 col-12">
+        <select
+          #categorySelect
+          (change)="filterByCategory(categorySelect.value)"
+        >
+          <option>تصنيف المنتجات حسب الفئة</option>
+          <ng-container *ngFor="let category of allCategory">
+            <option [value]="category">{{ category }}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+
+    <app-waiting *ngIf="loadingData"></app-waiting>
+
+    <!-- Section For Show Products -->
+    <div class="row" *ngIf="!loadingData">
+      <div
+        class="prd col-lg-3 col-md-4 col-sm-6 col-12"
+        *ngFor="let li of allProducts"
+      >
+        <app-product-card
+          [data]="li"
+          [userRole]="user?.role"
+          (item)="addToCart($event)"
+        ></app-product-card>
+
+        <!-- <div class="prd-card"
+            <div class="prd-img">
+              <img src="https://picsum.photos/200" />
+            </div>
+            <div class="prd-info">
+              <h2> {{ li.name }} </h2>
+              <p> الخامه: {{ li.description }} </p>
+              <h4> السعر: {{ li.price }} </h4>
+              <button class="prd-btn" (click)="add()" > اضافة الى عربة التسوق </button>
+            </div>
+          </div>
+      </div>
+    </div> -->
+
+        <!-- Making Progress Spinner -->
+
+        <!-- Swipper -->
+        <!-- <div class="col-12">
+      <div class="swiper-container" [swiper]="config" *ngIf="domanations.length">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let domanation of domanations; let i = index">
+            <a
+              role="button"
+              [ngClass]="domanation.active ? 'active' : ''"
+              (click)="onFilterClicked('domanation', i)"
+            >
+              {{ domanation.name }}
+            </a>
+          </div>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="fas fa-angle-right"></i>
+        </div>
+        <div class="swiper-button-next">
+          <i class="fas fa-angle-left"></i>
+        </div>
+      </div>
+    </div> -->
+      </div>
+      <mat-paginator
+        class="pagintor"
+        [style.visibility]="!loadingData ? 'visible' : 'hidden'"
+        [length]="productLength"
+        [pageSize]="12"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

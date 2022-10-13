@@ -1,0 +1,137 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  flex: 1 0 auto;
+  overflow: auto !important;
+  height: -webkit-fill-available !important;
+}
+
+:host ::ng-deep .mat-drawer-content::-webkit-scrollbar {
+  width: 10px;
+}
+:host ::ng-deep .mat-drawer-content::-webkit-scrollbar-track {
+  background-color: #f7f7f7;
+  box-shadow: 0px 0px 1px 1px rgb(224, 224, 224);
+  border-radius: 5px;
+}
+:host ::ng-deep .mat-drawer-content::-webkit-scrollbar-thumb {
+  background-color: #056eb8;
+  border-radius: 5px;
+}
+
+:host ::ng-deep .mat-toolbar.mat-primary {
+  background: #056eb8 !important;
+}
+
+:host ::ng-deep .mat-drawer.mat-drawer-side {
+  width: 300px !important;
+  text-align: center !important;
+}
+:host ::ng-deep .mat-drawer.mat-drawer-side ::-webkit-scrollbar {
+  width: 7px;
+}
+:host ::ng-deep .mat-drawer.mat-drawer-side ::-webkit-scrollbar-track {
+  background-color: #f7f7f7;
+  box-shadow: 0px 0px 1px 1px rgb(224, 224, 224);
+  border-radius: 5px;
+}
+:host ::ng-deep .mat-drawer.mat-drawer-side ::-webkit-scrollbar-thumb {
+  background-color: #056eb8;
+  border-radius: 5px;
+}
+
+:host ::ng-deep .mat-list-item {
+  width: 90% !important;
+  margin: 14px auto !important;
+  background: #f7f7f7 !important;
+  color: #056eb8 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 8px;
+  letter-spacing: 0.5px;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 3px 1px -2px #0003, 0 2px 2px #00000024, 0 1px 5px #0000001f;
+  transition: all 0.4s ease-in-out;
+}
+:host ::ng-deep .mat-list-item:hover {
+  transform: translateY(3px);
+}
+
+:host ::ng-deep .mat-list-item.logout {
+  background: linear-gradient(45deg, #d13737, #aa0d08) !important  ;
+  color: #fff !important;
+  border: 2px solid transparent !important;
+}
+
+:host ::ng-deep .mat-list-item.active {
+  background: linear-gradient(45deg, #3791d1, #0b75c0) !important  ;
+  color: #fff !important;
+}
+
+.user .user-info .user-img img {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  padding: 5px;
+  background: #056eb8;
+  display: block;
+  margin: 15px auto;
+}
+.user .user-info .info h3 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #056eb8;
+  margin-bottom: 10px;
+}
+.user .user-info .info p {
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: #8f8f8f;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 1200px) {
+  .user .user-info {
+    text-align: center;
+  }
+  :host ::ng-deep .mat-drawer:not(.mat-drawer-side) {
+    width: 240px !important;
+  }
+
+  :host ::ng-deep .mat-drawer:not(.mat-drawer-side) ::-webkit-scrollbar {
+    width: 7px;
+  }
+  :host ::ng-deep .mat-drawer:not(.mat-drawer-side) ::-webkit-scrollbar-track {
+    background-color: #f7f7f7;
+    box-shadow: 0px 0px 1px 1px rgb(224, 224, 224);
+    border-radius: 5px;
+  }
+  :host ::ng-deep .mat-drawer:not(.mat-drawer-side) ::-webkit-scrollbar-thumb {
+    background-color: #056eb8;
+    border-radius: 5px;
+  }
+}

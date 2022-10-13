@@ -1,0 +1,70 @@
+.products {
+  padding: 100px;
+}
+
+.products .prd-heading {
+  margin-bottom: 50px;
+  /* background-color: #e8f8f7;
+    padding: 15px 0px */
+}
+
+.products .prd-heading .heading h1 {
+  text-align: right;
+  color: var(--main-color);
+}
+
+.products .prd-heading .prd-icon .mat-icon {
+  color: var(--main-color);
+  font-size: 50px;
+}
+
+.products .container .prd {
+  margin-bottom: 70px;
+  text-align: center;
+}
+
+.products .container .prd-heading .prd-filter {
+  margin-top: 18px;
+}
+
+.products .container .prd .prd-card {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  height: 100%;
+  padding-bottom: 20px;
+}
+
+.products .container .prd .prd-card:hover {
+  transition: all 0.5s ease-in-out;
+  transform: scale(1.1);
+  box-shadow: #e8f8f7 0px 3px 8px;
+  border-radius: 20px;
+}
+
+.products .container .prd .prd-card .prd-img img {
+  width: 90%;
+  margin: 10px 2%;
+  height: 100%;
+  margin-bottom: 10px;
+}
+
+.mat-paginator {
+  background-color: var(--backup-color) !important;
+}
+
+.mat-progress-spinner {
+  color: var(--main-color);
+}
+
+.pagintor {
+  margin-left: 30%;
+}
+
+@media (max-width: 600px) {
+  .pagintor {
+    margin-left: 0%;
+  }
+}
+
+/* Swipper */

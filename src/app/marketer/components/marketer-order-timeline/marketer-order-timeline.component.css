@@ -1,0 +1,109 @@
+.timeline {
+  position: relative;
+  padding: 30px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.timeline h2 {
+  font-size: 32px;
+  color: #056eb8;
+  letter-spacing: 1px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #056eb8;
+  padding-bottom: 8px;
+}
+
+.icons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.icons > span {
+  position: relative;
+}
+
+.icons i {
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  line-height: 100px;
+  color: rgb(65, 64, 64);
+  background-color: rgb(216, 211, 211);
+  border-radius: 50%;
+}
+
+.icons i.active {
+  color: white;
+  background-color: var(--main-color);
+}
+
+.icons .text {
+  color: rgb(150, 146, 146);
+  position: absolute;
+  bottom: -30px;
+  right: 5px;
+}
+
+.icons .text-r {
+  position: absolute;
+  bottom: -30px;
+  right: 15px !important;
+}
+
+.icons .text.active {
+  color: var(--main-color);
+}
+
+.icons .line {
+  width: 100%;
+  min-width: 60px;
+  height: 5px;
+  display: inline-block;
+  background-color: rgb(216, 211, 211);
+}
+
+.icons .line.active {
+  background-color: var(--main-color);
+}
+
+.order-details {
+  background-color: #eee;
+  margin-top: 80px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-details > span {
+  width: 30%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.backward {
+  color: white;
+  background-color: var(--main-color);
+  padding: 10px 20px;
+  margin-top: 30px;
+}
+
+@media (max-width: 992px) {
+  .order-details {
+    flex-direction: column;
+  }
+
+  .order-details > span {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

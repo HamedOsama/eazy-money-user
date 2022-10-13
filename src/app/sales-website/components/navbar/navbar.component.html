@@ -1,0 +1,71 @@
+<nav [class.scrolled]="isScrolled">
+  <div class="container">
+    <div class="nav-container py-3">
+      <div class="logo">
+        <h1
+          routerLink="/sales-website/home-page"
+          (click)="btnMenuClicked = false"
+        >
+          <span>إيزي</span> موني
+        </h1>
+      </div>
+      <div class="list" [class.clicked]="btnMenuClicked">
+        <ul class="main-list">
+          <li
+            routerLink="/sales-website/about-us"
+            routerLinkActive="active"
+            (click)="btnMenuClicked = false"
+          >
+            من نحن
+          </li>
+          <li
+            routerLink="/sales-website/all-products"
+            routerLinkActive="active"
+            (click)="btnMenuClicked = false"
+          >
+            كل المنتجات
+          </li>
+          <li
+            routerLink="/sales-website/contact-us"
+            routerLinkActive="active"
+            (click)="btnMenuClicked = false"
+          >
+            تواصل معنا
+          </li>
+          <li
+            routerLink="/sales-website/terms-conditions"
+            routerLinkActive="active"
+            (click)="btnMenuClicked = false"
+          >
+            سياسة الخصوصية
+          </li>
+          <li
+            routerLink="/sales-website/faq-questions"
+            routerLinkActive="active"
+            (click)="btnMenuClicked = false"
+          >
+            الأسئلة الشائعة
+          </li>
+        </ul>
+        <ul class="buttons">
+          <span
+            class="core-btn btn-main"
+            routerLink="/auth/login"
+            (click)="btnMenuClicked = false"
+            >تسجيل الدخول</span
+          >
+          <span
+            class="core-btn btn-sub"
+            routerLink="/auth/signup"
+            (click)="btnMenuClicked = false"
+            >إنشاء حساب جديد</span
+          >
+        </ul>
+      </div>
+      <span class="menu-btn" (click)="btnMenuClicked = !btnMenuClicked">
+        <mat-icon *ngIf="!btnMenuClicked">menu</mat-icon>
+        <mat-icon *ngIf="btnMenuClicked">close</mat-icon>
+      </span>
+    </div>
+  </div>
+</nav>

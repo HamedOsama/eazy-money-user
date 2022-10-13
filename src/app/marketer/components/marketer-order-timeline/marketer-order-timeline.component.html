@@ -1,0 +1,78 @@
+<div class="timeline y-5">
+  <div class="container">
+    <h2>تتبع حالة طلبك</h2>
+    <app-waiting *ngIf="loading"></app-waiting>
+    <div *ngIf="!loading">
+      <div class="icons">
+        <span>
+          <i
+            class="fa-solid fa-box-open"
+            [class.active]="order?.order.orderState >= 0"
+          ></i>
+          <span class="text" [class.active]="order?.order.orderState >= 0"
+            >قيد المراجعة</span
+          >
+        </span>
+        <span class="line" [class.active]="order?.order.orderState >= 1"></span>
+        <span>
+          <i
+            class="fa-solid fa-box"
+            [class.active]="order?.order.orderState >= 1"
+          ></i>
+          <span class="text" [class.active]="order?.order.orderState >= 1"
+            >جاهز للشحن</span
+          >
+        </span>
+        <span class="line" [class.active]="order?.order.orderState >= 2"></span>
+        <span>
+          <i
+            class="fa-solid fa-truck-fast"
+            [class.active]="order?.order.orderState >= 2"
+          ></i>
+          <span
+            class="text text-r"
+            [class.active]="order?.order.orderState >= 2"
+            >قيد الشحن</span
+          >
+        </span>
+        <span class="line" [class.active]="order?.order.orderState >= 3"></span>
+        <span>
+          <i
+            class="fa-solid fa-truck-ramp-box"
+            [class.active]="order?.order.orderState >= 3"
+          ></i>
+          <span
+            class="text text-r"
+            [class.active]="order?.order.orderState >= 3"
+            >تم الشحن</span
+          >
+        </span>
+        <span class="line" [class.active]="order?.order.orderState >= 4"></span>
+        <span>
+          <i
+            class="fa-solid fa-circle-check"
+            [class.active]="order?.order.orderState >= 4"
+          ></i>
+          <span
+            class="text text-r"
+            [class.active]="order?.order.orderState >= 4"
+            >طلب ناجح</span
+          >
+        </span>
+      </div>
+
+      <div class="order-details">
+        <span><strong>رقم الطلب: </strong>{{ order?.order._id }}</span>
+        <span><strong>اسم العميل: </strong>{{ order?.order.name }}</span>
+        <span
+          ><strong>التاريخ: </strong
+          >{{ order?.order.createdAt | date: "medium" }}</span
+        >
+      </div>
+
+      <button class="btn backward" routerLink="/buyer/all-orders">
+        للرجوع لصفحة كل طلباتك <i class="fa-solid fa-arrow-rotate-left"></i>
+      </button>
+    </div>
+  </div>
+</div>

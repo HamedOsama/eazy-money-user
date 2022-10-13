@@ -1,0 +1,10 @@
+<div class="filter-option">
+  <select
+    class="form-select form-select-sm"
+    aria-label=".form-select-sm example"
+    (change)="detectChanges($event)"
+  >
+    <option value="all" selected>تصنيف المنتجات حسب الفئة</option>
+    <option *ngFor="let cat of data" [value]="cat">{{ cat }}</option>
+  </select>
+</div>

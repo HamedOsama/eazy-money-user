@@ -1,0 +1,1126 @@
+<div class="products py-5">
+  <ng-container *ngIf="loading">
+    <app-waiting></app-waiting>
+  </ng-container>
+
+  <div *ngIf="!loading" class="container-fluid">
+    <h2 class="d-flex justify-content-between align-items-center">
+      <span>المنتجات</span>
+      <button
+        class="text-light bg-success"
+        title="Add"
+        (click)="open(content4); productProperties = []"
+      >
+        <i class="fa-solid fa-plus me-1"></i>
+        اضافة منتج
+      </button>
+    </h2>
+    <div
+      class="filters d-flex flex-column flex-md-row justify-content-between align-items-center"
+    >
+      <div class="filter d-flex justify-content-between align-items-baseline">
+        <mat-form-field class="custom" appearance="standard">
+          <mat-label> بحث بالاسم</mat-label>
+          <input
+            matInput
+            ngModel
+            name="search"
+            placeholder="Ex. Mia"
+            #input="ngModel"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div
+      class="mat-elevation-z8 position-relative"
+      [style]="{
+        height: waiting ? '100vh' : '',
+        overflow: waiting ? 'hidden !important' : ''
+      }"
+      *ngIf="allProducts?.length"
+    >
+      <ng-container *ngIf="waiting">
+        <app-waiting></app-waiting>
+      </ng-container>
+    </div>
+    <table
+      *ngIf="!waiting"
+      class="table table-bordered table-responsive text-center"
+      mat-table
+      [dataSource]="dataSource"
+    >
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef style="width: 50px !important">
+          #
+        </th>
+        <td
+          mat-cell
+          style="width: 50px !important"
+          *matCellDef="let row; let i = index"
+        >
+          {{ i + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="image">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          style="overflow: hidden; width: 180px !important"
+        >
+          الصورة
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <ngb-carousel
+            [showNavigationArrows]="false"
+            [showNavigationIndicators]="true"
+            [interval]="0"
+            *ngIf="row?.image?.length !== 0"
+          >
+            <ng-template ngbSlide *ngFor="let image of row?.image">
+              <div class="picsum-img-wrapper">
+                <img
+                  [src]="imageRoot + image"
+                  alt="product image"
+                  class="img-fluid"
+                  width="120px"
+                  height="123px"
+                />
+              </div>
+            </ng-template>
+          </ngb-carousel>
+
+          <button
+            *ngIf="row?.image?.length === 0"
+            class="alert alert-secondary m-0 p-0"
+          >
+            لم يتم اضافة صورة
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>الاسم</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>النوع</th>
+        <td mat-cell *matCellDef="let row">{{ row.category }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>الوصف</th>
+        <td mat-cell *matCellDef="let row" class="des-row">
+          {{ row.description }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="properties">
+        <th mat-header-cell *matHeaderCellDef>المواصفات</th>
+        <td mat-cell *matCellDef="let row">
+          <ul class="p-0 m-0 pe-4" *ngIf="row.properties.length != 0">
+            <li
+              *ngFor="let property of row.properties"
+              style="list-style-type: circle"
+            >
+              <p class="mb-0 d-flex justify-content-between align-items-center">
+                <span>المقاس : {{ property.size }}</span>
+                <span>اللون : {{ property.color }}</span>
+                <span>الكمية : {{ property.amount }}</span>
+              </p>
+            </li>
+          </ul>
+
+          <ng-container *ngIf="row.properties.length == 0">
+            <span class="fw-bolder text-secondary"
+              >لم يتم اضافة مواصفات للمنتج</span
+            >
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>السعر</th>
+        <td mat-cell *matCellDef="let row">{{ row.originalPrice }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef>التقييم</th>
+        <td mat-cell *matCellDef="let row">{{ row.rate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="numOfReviews">
+        <th mat-header-cell *matHeaderCellDef>عدد التقييمات</th>
+        <td mat-cell *matCellDef="let row">{{ row.numOfReviews }}</td>
+      </ng-container>
+      <!--
+        <ng-container matColumnDef="reviews">
+          <th mat-header-cell *matHeaderCellDef >reviews</th>
+          <td mat-cell *matCellDef="let row;">{{ row.reviews }}</td>
+        </ng-container> -->
+
+      <ng-container matColumnDef="total_amount">
+        <th mat-header-cell *matHeaderCellDef>الكمية</th>
+        <td mat-cell *matCellDef="let row">{{ row.total_amount }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>الحالة</th>
+        <td mat-cell *matCellDef="let row">
+          <button class="btn btn-danger" *ngIf="row.status === -2">
+            محذوف
+          </button>
+          <button class="btn btn-danger" *ngIf="row.status === -1">
+            مرفوض
+          </button>
+          <button class="btn btn-primary" *ngIf="row.status === 0">
+            قيد الانتظار
+          </button>
+          <button class="btn btn-success" *ngIf="row.status === 1">
+            مقبول
+          </button>
+          <button class="btn btn-secondary" *ngIf="row.status === 2">
+            غير مصنف
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="px-3">----</th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            title="Details"
+            (click)="productDetails(row); open(content3, null, 'lg')"
+            class="ms-4 me-4"
+          >
+            <i class="fa fa-sheet-plastic text-primary"></i>
+          </button>
+          <button
+            title="Edit"
+            (click)="open(content); getProductToEdit(row)"
+            class="ms-4"
+          >
+            <i class="fa-solid fa-pen-to-square text-success"></i>
+          </button>
+          <button
+            title="Delete"
+            (click)="open(content2); getProductToDelete(row)"
+            class="ms-4"
+          >
+            <i class="fa fa-trash text-danger"></i>
+          </button>
+          <button
+            class="ms-4"
+            title="reviews"
+            (click)="open(content5, row.reviews)"
+          >
+            <i class="fa fa-message reviews"></i>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          لا توجد نتائج لهذا البحث "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+    <mat-paginator
+      [style.visibility]="!waiting ? 'visible' : 'hidden'"
+      [length]="productLength"
+      [pageSize]="10"
+      (page)="onPageChange($event)"
+      aria-label="Select page of users"
+      showFirstLastButtons
+    ></mat-paginator>
+
+    <div *ngIf="!allProducts?.length" class="alert alert-warning text-center">
+      لم يتم اضافة اي منتج حتي الان
+    </div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<ng-template #content4 let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">اضافة منتج</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm">
+      <label class="file-input d-flex flex-column">
+        *صور المنتج
+        <input
+          type="file"
+          ngModel
+          name="avatar"
+          #img="ngModel"
+          #image
+          #fileUploader
+          multiple="multiple"
+          (change)="showPreview($event)"
+          required
+          [disabled]="files?.length == 4"
+        />
+        <button [disabled]="files?.length == 4" type="button">تحميل</button>
+        <ul class="text-success m-0" style="padding: 0px 25px">
+          <li style="list-style-type: square" *ngFor="let item of files">
+            <strong>{{ item.name }}</strong>
+          </li>
+        </ul>
+        <span
+          class="text-danger"
+          *ngIf="img.invalid && img.touched && img.dirty"
+        >
+          هذا الحقل <strong>اجباري</strong>
+        </span>
+      </label>
+
+      <mat-form-field appearance="fill">
+        <mat-label>اسم المنتج</mat-label>
+        <input
+          matInput
+          name="name"
+          #name="ngModel"
+          ngModel
+          required
+          minlength="5"
+        />
+        <mat-error *ngIf="name.hasError('required') && name.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+        <mat-error
+          *ngIf="
+            name.hasError('minlength') &&
+            !name.hasError('required') &&
+            name.touched
+          "
+        >
+          اسم المنتج لا يقل عن 5 حروف!</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>النوع </mat-label>
+        <mat-select ngModel #category="ngModel" name="category" required>
+          <mat-option disabled>--</mat-option>
+          <ng-container *ngFor="let category of allCategory">
+            <mat-option [value]="category">{{ category }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="category.hasError('required') && category.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>الوصف</mat-label>
+        <textarea
+          matInput
+          name="description"
+          ngModel
+          #description="ngModel"
+          required
+        ></textarea>
+        <mat-error
+          *ngIf="description.hasError('required') && description.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+        <!-- <mat-error
+          *ngIf="
+            (description.hasError('minlength') ||
+              description.hasError('maxlength')) &&
+            !description.hasError('required') &&
+            description.touched
+          "
+          >يجب كتابة وصف لا يقل عن 50 حرف ولا يزيد عن 300 حرف</mat-error
+        > -->
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label> سعر المنتج </mat-label>
+        <input
+          type="number"
+          matInput
+          name="originalPrice"
+          #price="ngModel"
+          ngModel
+          required
+          min="1"
+          max="1000000"
+        />
+        <mat-error *ngIf="price.hasError('required') && price.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+      </mat-form-field>
+
+      <div>
+        <div class="row">
+          <label class="d-inline-block mb-1">المواصفات</label>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label> الكمية </mat-label>
+              <input
+                type="number"
+                matInput
+                name="amount"
+                #amount="ngModel"
+                ngModel
+                required
+                min="1"
+                max="1000000"
+              />
+              <mat-error *ngIf="amount.hasError('required') && amount.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label> اللون </mat-label>
+              <input
+                type="text"
+                matInput
+                name="color"
+                #color="ngModel"
+                ngModel
+                required
+              />
+              <mat-error *ngIf="color.hasError('required') && color.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <!-- <mat-form-field appearance="fill">
+              <mat-label>المقاس </mat-label>
+              <mat-select ngModel #size="ngModel" name="size" required>
+                <mat-option disabled>--</mat-option>
+                <ng-container *ngFor="let size of sizes">
+                  <mat-option [value]="size">{{ size }}</mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="size.hasError('required') && size.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+            </mat-form-field> -->
+
+            <mat-form-field appearance="fill">
+              <mat-label> المقاس</mat-label>
+              <input
+                matInput
+                ngModel
+                #size="ngModel"
+                name="size"
+                required
+                minlength="1"
+              />
+              <mat-error *ngIf="size.hasError('required') && size.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  size.hasError('minlength') &&
+                  !size.hasError('required') &&
+                  size.touched
+                "
+              >
+                المقاس حرف او اكثر!</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="btn-add">
+          <button
+            class="btn btn-success"
+            [disabled]="color.invalid || amount.invalid || size.invalid"
+            (click)="addProperity(color.value, size.value, amount.value)"
+          >
+            اضافة
+          </button>
+        </div>
+        <div class="alert alert-light">
+          <ul
+            class="m-0 p-0 list-unstyled"
+            *ngIf="productProperties.length != 0"
+          >
+            <li
+              class="d-flex justify-content-between align-items-center mb-2"
+              *ngFor="let property of productProperties; let i = index"
+            >
+              <span>اللون : {{ property.color }}</span>
+              <span>المقاس : {{ property.size }}</span>
+              <span>الكمية : {{ property.amount }}</span>
+              <button class="btn btn-danger" (click)="removeProperity(i)">
+                X
+              </button>
+            </li>
+          </ul>
+          <div
+            class="alert alert-warning"
+            *ngIf="productProperties.length == 0"
+          >
+            لم يتم اضافة اي مواصفات, يجب اضافة 1 علي الاقل!
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="d-inline-block mb-1"
+          >سعر الشحن مثبت مسبقا اذا اردت التعديل قم باختيار المحافظة وعدل
+          عليها</label
+        >
+        <mat-form-field appearance="fill">
+          <mat-label>اختر المحافظة</mat-label>
+          <mat-select ngModel #shippingPrice="ngModel" name="shippingPrice">
+            <mat-option value="" selected>-----</mat-option>
+            <mat-option
+              *ngFor="let item of shipping_price | keyvalue"
+              [value]="item.key"
+            >
+              {{ item.key }}: {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>ضع سعر الشحن</mat-label>
+          <input
+            matInput
+            name="updatedShippingPrice"
+            ngModel
+            #updatedShippingPrice="ngModel"
+            [value]="shipping_price[shippingPrice.value]"
+          />
+        </mat-form-field>
+        <div class="btn-add">
+          <button
+            class="btn btn-success"
+            [disabled]="!updatedShippingPrice.value"
+            (click)="
+              updateShippingPrice(
+                shippingPrice.value,
+                updatedShippingPrice.value
+              )
+            "
+          >
+            تعديل
+          </button>
+        </div>
+      </div>
+
+      <div class="text-start">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="modal.close('Save click'); addProduct(form.value)"
+          [disabled]="form.invalid || productProperties.length == 0"
+        >
+          اضافة المنتج
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Details Modal -->
+<ng-template #content3 let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">بيانات المنتج</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body overflow-auto">
+    <div class="d-flex" *ngIf="productData?.image != 0">
+      <ng-container *ngFor="let image of productData?.image">
+        <img
+          [src]="imageRoot + image"
+          alt="Product image"
+          class="img-fluid"
+          style="
+            width: 23% !important;
+            margin: 0px 1% 10px !important;
+            border-radius: 5px !important;
+          "
+        />
+      </ng-container>
+    </div>
+    <div class="d-flex" *ngIf="productData?.image == 0">
+      <div class="alert alert-secondary">لم يتم اضافة اي صور!</div>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">معرف المنتج:</strong>
+      <span style="width: 100%">{{ productData._id }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">اسم المنتج: </strong>
+      <span style="width: 100%">{{ productData.name }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px"> الوصف : </strong>
+      <span style="width: 100%">{{ productData.description }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px"> النوع : </strong>
+      <span style="width: 100%">{{ productData.category }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">السعر : </strong>
+      <span style="width: 100%">{{ productData.originalPrice }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">سعر البيع : </strong>
+      <span style="width: 100%">{{
+        productData.sellPrice
+          ? productData.sellPrice
+          : "لم يتم الاضافة! يجب تعديل الحالة اولا!"
+      }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">سعر الشحن : </strong>
+      <span style="width: 100%" class="d-grid shippingPriceData">
+        <ng-container
+          *ngFor="let item of Object.keys(productData.shipping_price)"
+        >
+          <span class="mx-1">{{
+            item + " " + productData.shipping_price[item] + "  EG"
+          }}</span>
+        </ng-container>
+      </span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">الكمية : </strong>
+      <span style="width: 100%">{{ productData.total_amount }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">عدد التقييمات : </strong>
+      <span style="width: 100%">{{ productData.reviews?.length }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">التقييم : </strong>
+      <ngb-rating
+        style="width: 100%; font-size: 25px"
+        [rate]="productData.rate"
+      ></ngb-rating>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">الحالة:</strong>
+      <span style="width: 100%">
+        <span class="fw-bold fs-6 text-danger" *ngIf="productData.status === -2"
+          >محذوف</span
+        >
+        <span class="fw-bold fs-6 text-danger" *ngIf="productData.status === -1"
+          >مرفوض</span
+        >
+        <span class="fw-bold fs-6 text-primary" *ngIf="productData.status === 0"
+          >قيد الانتظار</span
+        >
+        <span class="fw-bold fs-6 text-success" *ngIf="productData.status === 1"
+          >مقبول</span
+        >
+      </span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">المواصفات:</strong>
+      <ul *ngIf="productData.properties.length !== 0" style="width: 100%">
+        <li
+          style="width: max-content"
+          class="d-flex justify-content-between align-items-center mb-2"
+          *ngFor="let property of productData.properties"
+        >
+          <span class="mx-2">اللون : {{ property?.color }}</span> -
+          <span class="mx-2">المقاس : {{ property?.size }}</span> -
+          <span class="ms-2">الكمية : {{ property?.amount }}</span>
+        </li>
+      </ul>
+      <span
+        *ngIf="productData.properties.length === 0"
+        class="alert alert-warning text-center"
+        style="width: 100%"
+        >لم يتم اضافة مواصفات</span
+      >
+    </div>
+  </div>
+
+  <div class="text-start mt-3 mb-2 ms-2">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.close('Save click')"
+    >
+      اغلاق
+    </button>
+  </div>
+</ng-template>
+
+<!-- Edit Modal -->
+<ng-template #content class="editProductModal" let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">تعديل المنتج</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm">
+      <div class="img-preview justify-content-center">
+        <div class="img">
+          <ng-container *ngFor="let image of editedProduct.image">
+            <img
+              [src]="imageRoot + image"
+              alt="Product image"
+              class="img-fluid"
+              style="
+                width: 23% !important;
+                margin: 0px 1% 10px !important;
+                border-radius: 5px !important;
+              "
+            />
+          </ng-container>
+        </div>
+        <label class="file-input d-flex flex-column">
+          *صور المنتج
+          <!-- name="avatar"
+            accept="image/*"
+            -->
+          <input
+            type="file"
+            ngModel
+            name="avatar"
+            #img="ngModel"
+            #image
+            #fileUploader
+            multiple="multiple"
+            (change)="showPreview($event)"
+            [required]="files?.length == 0"
+            [disabled]="files?.length == 4"
+          />
+          <button [disabled]="files?.length == 4" type="button">تحميل</button>
+          <ul class="text-success m-0" style="padding: 0px 25px">
+            <li style="list-style-type: square" *ngFor="let item of files">
+              <strong>{{ item.name ? item.name : item }}</strong>
+            </li>
+          </ul>
+          <span
+            class="text-danger"
+            *ngIf="img.invalid && img.touched && img.dirty"
+          >
+            هذا الحقل <strong>اجباري</strong>
+          </span>
+        </label>
+
+        <!-- <label class="file-input d-flex flex-column">
+          *الصورة
+          <input
+            type="file"
+            name="avatar"
+            [(ngModel)]="editedProduct.image"
+            #img="ngModel"
+            #image
+            accept="image/*"
+            #fileUploader
+            (change)="showPreview($event)"
+            [required]="
+              editedProduct?.image == null || editedProduct?.image?.length == 0
+            "
+          />
+          <button type="button">تحميل</button>
+          <span class="text-success" *ngIf="img.valid">
+            <strong>{{ img.value?.slice(12) }}</strong>
+          </span>
+        </label> -->
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>اسم المنتج</mat-label>
+        <input
+          matInput
+          name="name"
+          #name="ngModel"
+          [(ngModel)]="editedProduct.name"
+          required
+          minlength="5"
+        />
+        <mat-error *ngIf="name.hasError('required') && name.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+        <mat-error
+          *ngIf="
+            name.hasError('minlength') &&
+            name.hasError('required') &&
+            name.touched
+          "
+        >
+          اسم المنتج لا يقل عن 5 حروف!</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>النوع </mat-label>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="editedProduct.category"
+          #category="ngModel"
+          name="category"
+          required
+        />
+        <!-- <mat-select
+          [(ngModel)]="editedProduct.category"
+          #category="ngModel"
+          name="category"
+          required
+        >
+          <mat-option disabled>--</mat-option>
+          <ng-container *ngFor="let category of allCategory">
+            <mat-option [value]="category">{{ category }}</mat-option>
+          </ng-container>
+        </mat-select> -->
+        <mat-error *ngIf="category.hasError('required') && category.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>الوصف</mat-label>
+        <textarea
+          matInput
+          name="description"
+          [(ngModel)]="editedProduct.description"
+          #description="ngModel"
+          required
+        ></textarea>
+        <mat-error
+          *ngIf="description.hasError('required') && description.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+        <!-- <mat-error
+          *ngIf="
+            (description.hasError('minlength') ||
+              description.hasError('maxlength')) &&
+            !description.hasError('required') &&
+            description.touched
+          "
+          >يجب كتابة وصف لا يقل عن 50 حرف ولا يزيد عن 300 حرف</mat-error
+        > -->
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label> السعر</mat-label>
+        <input
+          type="number"
+          matInput
+          name="originalPrice"
+          #originalPrice="ngModel"
+          [(ngModel)]="editedProduct.originalPrice"
+          [required]="
+            !editedProduct.originalPrice || editedProduct.originalPrice == 0
+          "
+          min="1"
+          max="1000000"
+          [disabled]="editedProduct.originalPrice"
+        />
+        <mat-error
+          *ngIf="originalPrice.hasError('required') && originalPrice.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+      </mat-form-field> -->
+      <mat-form-field
+        appearance="fill"
+        *ngIf="editedProduct.originalPrice == undefined"
+      >
+        <mat-label> سعر المنتج</mat-label>
+        <input
+          type="number"
+          matInput
+          name="originalPrice"
+          ngModel
+          #originalPrice="ngModel"
+          required
+          min="0"
+          max="1000000"
+        />
+        <mat-error
+          *ngIf="originalPrice.hasError('required') && originalPrice.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        *ngIf="editedProduct.originalPrice != undefined"
+      >
+        <mat-label> سعر المنتج</mat-label>
+        <input
+          type="number"
+          matInput
+          name="originalPrice"
+          [(ngModel)]="editedProduct.originalPrice"
+          #originalPrice="ngModel"
+        />
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label> الكمية المتاحة</mat-label>
+        <input
+          type="number"
+          matInput
+          name="total_amount"
+          #total_amount="ngModel"
+          [(ngModel)]="editedProduct.total_amount"
+          required
+          min="1"
+          max="1000000"
+        />
+        <mat-error
+          *ngIf="total_amount.hasError('required') && total_amount.touched"
+          >هذا الحقل اجباري!</mat-error
+        >
+      </mat-form-field> -->
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>الحالة </mat-label>
+        <mat-select
+          [(ngModel)]="editedProduct.status"
+          #status="ngModel"
+          name="status"
+          [required]="!editedProduct.status"
+        >
+          <mat-option disabled>--</mat-option>
+          <mat-option [value]="-2">محذوف</mat-option>
+          <mat-option [value]="-1">مرفوض</mat-option>
+          <mat-option [value]="0">قيد الانتظار</mat-option>
+          <mat-option [value]="1">مقبول</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="status.hasError('required') && status.touched"
+        ></mat-error>
+      </mat-form-field> -->
+
+      <div>
+        <div class="row">
+          <label class="d-inline-block mb-1">المواصفات</label>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label> الكمية </mat-label>
+              <input
+                type="number"
+                matInput
+                name="amount"
+                #amount="ngModel"
+                ngModel
+                [required]="productProperties.length == 0"
+                min="1"
+                max="1000000"
+              />
+              <mat-error *ngIf="amount.hasError('required') && amount.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label> اللون </mat-label>
+              <input
+                type="text"
+                matInput
+                name="color"
+                #color="ngModel"
+                ngModel
+                [required]="productProperties.length == 0"
+              />
+              <mat-error *ngIf="color.hasError('required') && color.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>المقاس </mat-label>
+              <input
+                type="text"
+                matInput
+                name="size"
+                #size="ngModel"
+                ngModel
+                [required]="productProperties.length == 0"
+              />
+              <!-- <mat-select
+                ngModel
+                #size="ngModel"
+                name="size"
+                [required]="productProperties.length == 0"
+              >
+                <mat-option disabled>--</mat-option>
+                <ng-container *ngFor="let size of sizes">
+                  <mat-option [value]="size">{{ size }}</mat-option>
+                </ng-container>
+              </mat-select> -->
+              <mat-error *ngIf="size.hasError('required') && size.touched"
+                >هذا الحقل اجباري!</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="btn-add">
+          <button
+            class="btn btn-success"
+            [disabled]="color.invalid || amount.invalid || size.invalid"
+            (click)="
+              addProperity(color.value, size.value, amount.value);
+              color.reset();
+              size.reset();
+              amount.reset()
+            "
+          >
+            اضافة
+          </button>
+        </div>
+        <div class="alert alert-light">
+          <ul
+            class="m-0 p-0 list-unstyled"
+            *ngIf="productProperties.length != 0"
+          >
+            <li
+              class="d-flex justify-content-between align-items-center mb-2"
+              *ngFor="let property of productProperties; let i = index"
+            >
+              <span>اللون : {{ property.color }}</span>
+              <span>المقاس : {{ property.size }}</span>
+              <span>الكمية : {{ property.amount }}</span>
+              <button class="btn btn-danger" (click)="removeProperity(i)">
+                X
+              </button>
+            </li>
+          </ul>
+          <div
+            class="alert alert-warning"
+            *ngIf="productProperties.length == 0"
+          >
+            لم يتم اضافة اي مواصفات, يجب اضافة 1 علي الاقل!
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="d-inline-block mb-1">سعر الشحن </label>
+        <mat-form-field appearance="fill">
+          <mat-label>اختر المحافظة</mat-label>
+          <mat-select ngModel #shippingPrice="ngModel" name="shippingPrice">
+            <mat-option value="" selected>-----</mat-option>
+            <mat-option
+              *ngFor="let item of shipping_price | keyvalue"
+              [value]="item.key"
+            >
+              {{ item.key }}: {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>ضع سعر الشحن</mat-label>
+          <input
+            matInput
+            name="updatedShippingPrice"
+            ngModel
+            #updatedShippingPrice="ngModel"
+            [value]="shipping_price[shippingPrice.value]"
+          />
+        </mat-form-field>
+        <div class="btn-add">
+          <button
+            class="btn btn-success"
+            [disabled]="!updatedShippingPrice.value"
+            (click)="
+              updateShippingPrice(
+                shippingPrice.value,
+                updatedShippingPrice.value
+              )
+            "
+          >
+            تعديل
+          </button>
+        </div>
+      </div>
+
+      <div class="text-start">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="
+            modal.close('Save click');
+            editProduct(editedProduct._id, form.value)
+          "
+          [disabled]="!form.dirty"
+        >
+          تعديل
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Delete Modal -->
+<ng-template #content2 let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">حذف المنتج</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <p class="fs-6 mb-4 fw-bold text-danger">
+      هل ترغب بالفعل في حذف هذا المنتج؟
+    </p>
+    <div class="text-start">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Save click'); deleteProduct()"
+      >
+        حذف
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Reviews Modal -->
+<ng-template #content5 let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">مراجعات المنتج</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="productReviews.length">
+      <ng-container *ngFor="let review of productReviews">
+        <div
+          class="d-flex flex-column justify-content-center justify-content-start"
+        >
+          <span>الاسم : {{ review?.name }}</span>
+          <span>التعليق : {{ review?.comment }}</span>
+          <span
+            >التقييم :
+            <ngb-rating
+              style="width: 100%; font-size: 20px"
+              [rate]="review?.rating"
+            ></ngb-rating>
+          </span>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div *ngIf="!productReviews.length" class="alert alert-warning">
+      لم يتم اضافة اي مراجعات ع المنتج حتي الان
+    </div>
+
+    <div class="text-start">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="modal.close('Save click')"
+      >
+        اغلاق
+      </button>
+    </div>
+  </div>
+</ng-template>

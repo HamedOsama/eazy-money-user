@@ -1,0 +1,101 @@
+<div class="balance py-5">
+  <div class="container">
+    <app-waiting *ngIf="loading"></app-waiting>
+    <div class="current-balance" *ngIf="!loading">
+      <div>
+        <h2>رصيدك الحالي</h2>
+        <span class="date">بتاريخ {{ currentDate }}</span>
+      </div>
+      <div>
+        <h3 class="total-balance">{{ userBalance }} E&#xa3;</h3>
+      </div>
+    </div>
+    <div class="transfers" *ngIf="!loading">
+      <div class="withdrawal-request">
+        <h3>تقديم طلب سحب</h3>
+        <div
+          class="alert alert-danger waiting"
+          role="alert"
+          *ngIf="!user.payment_method"
+        >
+          لا يمكنك تقديم طلب سحب الا بعد تسجيل طريقة الدفع الخاصة بك لتحويل
+          المبلغ عليها
+          <br />
+          <span
+            >لتعديل طريقة الدفع؟
+            <a routerLink="/buyer/profile">أضغط هنا</a></span
+          >
+        </div>
+        <form
+          #withdrawalForm="ngForm"
+          (ngSubmit)="addWithdrawlRequest(withdrawalForm.value)"
+          *ngIf="user.payment_method"
+        >
+          <input
+            type="text"
+            placeholder="ادخل قيمة السحب"
+            name="withdrawnAmount"
+            ngModel
+            #withdrawnAmount="ngModel"
+            (focus)="calcBalanceOnFocus()"
+            (keyup)="calcBalanceOnChange(withdrawnAmount)"
+            id="withdrawalInput"
+            required
+          />
+          <button
+            class="btn"
+            [disabled]="
+              fireBalanceErrorMessage ||
+              fireBalanceErrorMessage2 ||
+              sendingRequest ||
+              withdrawalForm.invalid
+            "
+          >
+            &#x2190;
+          </button>
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="fireBalanceErrorMessage"
+          >
+            رصيدك غير كافي
+          </div>
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="fireBalanceErrorMessage2"
+          >
+            قيمة السحب يجب الا تقل عن 100 جنيه
+          </div>
+        </form>
+      </div>
+      <div class="last-movements-history">
+        <h3>سجل باخر عمليات السحب</h3>
+        <table>
+          <tr>
+            <th>#</th>
+            <th>المبلغ المسحوب</th>
+            <th>التاريخ</th>
+            <th>الحالة</th>
+          </tr>
+          <tr>
+            <td colspan="4" *ngIf="!transactions.length">
+              لا يوجد معاملات سحب سابقة
+            </td>
+          </tr>
+          <tr *ngFor="let transaction of transactions">
+            <td>{{ transaction?._id }}</td>
+            <td>{{ transaction?.withdrawnAmount }}</td>
+            <td>{{ transaction?.createdAt | date: "mediumDate" }}</td>
+            <td *ngIf="transaction.state == 0">قيد المراجعة</td>
+            <td *ngIf="transaction.state == 1">تم السحب</td>
+          </tr>
+        </table>
+        <Span class="balance-history-link">
+          لمزيد من الفاصيل او الاطلاع علي باقي السحوبات؟
+          <a routerLink="/buyer/balance-history">اضغط هنا</a>
+        </Span>
+      </div>
+    </div>
+  </div>
+</div>

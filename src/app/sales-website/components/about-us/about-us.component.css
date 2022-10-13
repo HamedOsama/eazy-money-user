@@ -1,0 +1,153 @@
+.about-us .about-us-info > p,
+.more-info p {
+  color: var(--sub-color);
+  line-height: 1.8em;
+  margin-bottom: 15px;
+}
+
+.about-us .about-us-info .social-info .social-link {
+  margin-top: 20px;
+}
+
+.about-us .about-us-info .social-info .social-link a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+  margin-left: 10px;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.4s ease-in-out;
+}
+
+.about-us .about-us-info .social-info .social-link a:hover {
+  transform: translateY(3px);
+}
+
+.about-us .about-us-info .social-info .social-link a.face {
+  background-color: #3f51b5;
+  background: -webkit-linear-gradient(to right, #3f51b5, #001797);
+  background: linear-gradient(to right, #3f51b5, #001797);
+}
+
+.about-us .about-us-info .social-info .social-link a.twit {
+  background-color: #2196f3;
+  background: -webkit-linear-gradient(to right, #2196f3, #117dd6);
+  background: linear-gradient(to right, #2196f3, #117dd6);
+}
+
+.about-us .about-us-info .social-info .social-link a.inst {
+  background: #c31432; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #301047,
+    #ce1433
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #301047,
+    #ce1433
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.about-us .about-us-info .social-info .social-link a.yout {
+  background-color: #e02323;
+  background: -webkit-linear-gradient(to right, #e02323, #a31010);
+  background: linear-gradient(to right, #e02323, #a31010);
+}
+
+.about-us .about-us-info .social-info .social-link a.telegtam {
+  background-color: #1a9cc4;
+  background: -webkit-linear-gradient(to right, #38b4da, #1291b8);
+  background: linear-gradient(to right, #38b4da, #1291b8);
+}
+
+.about-us .about-us-img {
+  width: 100%;
+  height: 50vh;
+  background-color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.about-us .about-us-img img {
+  width: 95% !important;
+  height: 95% !important;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+/* ******************************************* */
+.more-details {
+  padding: 30px 0px 40px;
+  background-color: #fcfaff;
+}
+
+.more-info h2,
+.bars h2 {
+  text-align: right;
+}
+
+.bars .bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.bars .bar span {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  color: #888888;
+  font-weight: 400;
+}
+.bars .bar span:first-of-type {
+  width: 220px;
+}
+.bars .bar span:last-of-type {
+  width: 80px;
+  text-align: left;
+}
+
+:host ::ng-deep .mat-progress-bar .mat-progress-bar-fill {
+  transform-origin: top right;
+}
+:host
+  ::ng-deep.bar:first-of-type
+  .mat-progress-bar
+  .mat-progress-bar-fill::after {
+  background-color: var(--main-color);
+}
+:host
+  ::ng-deep.bar:nth-of-type(2)
+  .mat-progress-bar
+  .mat-progress-bar-fill::after {
+  background-color: var(--sub-color);
+}
+:host
+  ::ng-deep.bar:nth-of-type(3)
+  .mat-progress-bar
+  .mat-progress-bar-fill::after {
+  background-color: #5f7fa3;
+}
+:host
+  ::ng-deep
+  .bar:last-of-type
+  .mat-progress-bar
+  .mat-progress-bar-fill::after {
+  background-color: #4ac5b6;
+}
+
+:host ::ng-deep .mat-progress-bar-buffer {
+  background-color: rgb(180, 177, 177);
+}
+
+@media (max-width: 992px) {
+  .about-us p {
+    padding: 0px 20px !important;
+  }
+}

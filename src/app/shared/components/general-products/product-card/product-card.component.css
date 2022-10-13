@@ -1,0 +1,62 @@
+.prd-card {
+  background-color: white;
+  /* border-radius: 20px; */
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+  background-color: rgb(249, 246, 246);
+  height: 100%;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+
+/* .prd-card:hover {
+    transition: all 0.5s ease-in-out;
+    transform: scale(1.1);
+    box-shadow: #e8f8f7 0px 3px 8px;
+    border-radius: 20px;
+} */
+
+.prd-card .prd-info {
+  text-align: right;
+  padding-right: 15px;
+}
+
+.prd-card .prd-info p {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.prd-card .prd-info ngb-rating {
+  color: #ffc107;
+  font-size: 20px;
+}
+
+.prd-card .prd-img {
+  position: relative;
+}
+.prd-card .prd-img {
+  position: block;
+}
+.prd-card .prd-img .eye-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 20px;
+  padding-top: 18px;
+}
+
+.img-fluid,
+img {
+  width: 90%;
+  margin: 10px 2%;
+  height: 250px;
+  margin-bottom: 10px;
+}
+
+.prd-card button {
+  background-color: #056eb8;
+  color: white;
+  padding: 10px 22px;
+  outline: #056eb8;
+  border: none;
+  margin-top: 10px;
+}

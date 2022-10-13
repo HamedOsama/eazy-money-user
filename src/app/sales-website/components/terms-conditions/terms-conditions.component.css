@@ -1,0 +1,122 @@
+.terms-conditions {
+  min-height: 100vh;
+  padding: 180px 0px 35px;
+}
+
+.terms-conditions .overflow,
+.terms-conditions .overflow2 {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background-color: #e8f8f7;
+  /* background-color: var(--sub-color); */
+  z-index: -1;
+}
+.terms-conditions .overflow {
+  top: 0px;
+  right: 0px;
+  clip-path: polygon(64% 0, 100% 0, 100% 100%, 25% 100%);
+}
+.terms-conditions .overflow2 {
+  top: 0px;
+  left: 0px;
+  clip-path: polygon(0 0, 36% 0, 75% 100%, 0% 100%);
+}
+
+.terms-conditions .info {
+  padding: 30px;
+}
+.terms-conditions .info h2 {
+  color: var(--main-color);
+  font-size: 26px;
+  margin-bottom: 40px;
+  position: relative;
+  display: inline-block;
+}
+.terms-conditions .info h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  right: 0px;
+  width: 100%;
+  height: 3px;
+  background-color: var(--main-color);
+}
+.terms-conditions .info h2 i {
+  margin-left: 5px;
+}
+
+:host ::ng-deep .mat-expansion-panel {
+  margin-bottom: 10px !important;
+  background-color: white !important;
+}
+:host ::ng-deep .mat-expansion-panel-header {
+  padding: 0 20px !important;
+  height: 56px !important;
+  border-bottom: 1px solid #ccc !important;
+}
+:host ::ng-deep .mat-expansion-panel-header,
+:host ::ng-deep .mat-expansion-panel-content {
+  font-family: "Cairo", sans-serif !important;
+  font-size: 18px !important;
+}
+
+:host ::ng-deep .mat-expansion-panel-header:hover {
+  background-color: white !important;
+}
+
+:host ::ng-deep .mat-expansion-indicator::after {
+  color: var(--main-color);
+}
+
+:host ::ng-deep .mat-expansion-panel-header-title {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  padding: 12px 0px !important;
+  letter-spacing: 1px !important;
+  font-weight: 500 !important;
+  color: var(--main-color) !important;
+}
+:host ::ng-deep .mat-expansion-panel-header-title i.fa {
+  font-size: 18px !important;
+  margin-left: 5px !important;
+}
+:host ::ng-deep .mat-expansion-panel-body p {
+  color: #777;
+  letter-spacing: 0.5px;
+  line-height: 1.8em;
+  font-size: 13px;
+  padding-top: 10px;
+  margin-bottom: 0px;
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+  :host ::ng-deep .mat-expansion-panel-header-title {
+    font-size: 14px !important;
+  }
+
+  :host ::ng-deep .mat-expansion-panel-header-title i.fa {
+    font-size: 17px !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .terms-conditions .info h2 {
+    font-size: 24px;
+  }
+
+  :host ::ng-deep .mat-expansion-panel-header-title {
+    font-size: 13px !important;
+  }
+
+  :host ::ng-deep .mat-expansion-panel-header-title i.fa {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  :host ::ng-deep .mat-expansion-panel-header {
+    height: 80px !important;
+  }
+}

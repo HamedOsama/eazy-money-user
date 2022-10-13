@@ -1,0 +1,13 @@
+h1 {
+  color: var(--main-color);
+}
+
+img {
+  display: block;
+  margin: auto;
+  height: 65vh;
+}
+
+button {
+  margin-top: 10px;
+}

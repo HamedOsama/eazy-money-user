@@ -1,0 +1,378 @@
+<div class="edit-profile py-5 section-styles">
+  <div class="container">
+    <h2 class="mb-5 main-heading">الملف الشخصي</h2>
+    <mat-stepper
+      #stepper
+      [linear]="isLinear"
+      [orientation]="(stepperOrientation | async)!"
+    >
+      <mat-step [stepControl]="mainInfoFormGroup.control">
+        <ng-template matStepLabel>البيانات الشخصية</ng-template>
+        <div>
+          <div class="image-prev">
+            <img
+              src="{{ apiRootImage }}{{ loggedUser?.image }}"
+              alt="User Image"
+            />
+            <input
+              type="file"
+              id="changeImgBtn"
+              (change)="onFileSelected($event)"
+            />
+            <label
+              for="changeImgBtn"
+              class="changeImageLabel"
+              matTooltip="قم بتغير صورتك الشخصية"
+              ><mat-icon>folder</mat-icon></label
+            >
+          </div>
+          <button
+            type="button"
+            class="d-block m-auto"
+            *ngIf="imageSelected"
+            (click)="uploadImage()"
+          >
+            تاكيد رفع الصورة
+          </button>
+        </div>
+
+        <form
+          #mainInfoFormGroup="ngForm"
+          (ngSubmit)="updateInfo(mainInfoFormGroup.value)"
+        >
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label> *الاسم </mat-label>
+            <input
+              type="text"
+              required
+              matInput
+              [(ngModel)]="loggedUser.name"
+              name="name"
+              #name="ngModel"
+            />
+            <mat-error *ngIf="name.hasError('required')">
+              هذا الحقل <strong>اجباري</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*البريد الالكتروني</mat-label>
+            <input
+              type="email"
+              placeholder="Ex. pat@example.com"
+              required
+              disabled="true"
+              matInput
+              [(ngModel)]="loggedUser.email"
+              name="email"
+            />
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*رقم الموبيل </mat-label>
+            <input
+              type="tel"
+              placeholder="01xxxxxxxxx"
+              required
+              minlength="11"
+              maxlength="11"
+              matInput
+              [(ngModel)]="loggedUser.phone"
+              name="phone"
+              #phone="ngModel"
+            />
+            <mat-error *ngIf="phone.hasError('required')">
+              هذا الحقل <strong>اجباري</strong>
+            </mat-error>
+            <mat-error *ngIf="phone.hasError('minlength' || 'maxlength')">
+              رقم الهاتف يجب ان لا يقل او يزيد عن <strong>11 رقم</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*العنوان </mat-label>
+            <input
+              type="string"
+              matInput
+              [(ngModel)]="loggedUser.address"
+              name="address"
+              #address="ngModel"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*رقم الواتساب </mat-label>
+            <input
+              type="tel"
+              placeholder="01xxxxxxxxx"
+              minlength="11"
+              matInput
+              [(ngModel)]="loggedUser.whatsapp_num"
+              name="whatsapp_num"
+              #whatsappNum="ngModel"
+            />
+            <mat-error *ngIf="whatsappNum.hasError('minlength')">
+              رقم الهاتف يجب ان لا يقل عن <strong>11 رقم</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*رابط الفيس بوك</mat-label>
+            <input
+              type="string"
+              matInput
+              name="facebook"
+              [(ngModel)]="loggedUser.facebook"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*رابط موقعك</mat-label>
+            <input
+              type="string"
+              matInput
+              name="website"
+              [(ngModel)]="loggedUser.website"
+            />
+          </mat-form-field>
+          <button
+            type="submit"
+            class="d-block m-auto"
+            mat-raised-button
+            color="primary"
+            [disabled]="mainInfoFormGroup.invalid || !mainInfoFormGroup.dirty"
+          >
+            تعديل البيانات
+          </button>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="paymentInfoFormGroup.control">
+        <ng-template matStepLabel>البيانات المالية</ng-template>
+        <form
+          #paymentInfoFormGroup="ngForm"
+          (ngSubmit)="updateInfo(paymentInfoFormGroup.value)"
+        >
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*طريقة الدفع</mat-label>
+            <mat-select
+              #paymentMethod
+              name="payment_method"
+              [(ngModel)]="loggedUser.payment_method"
+            >
+              <mat-option value="">اختر نوع محفظتك</mat-option>
+              <mat-option value="etisalat cash">اتصالات كاش</mat-option>
+              <mat-option value="vodafone cash">فودافون كاش</mat-option>
+              <mat-option value="orange cash">اورانج كاش</mat-option>
+              <mat-option value="we pay">وي باي</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*رقم المحفظة </mat-label>
+            <input
+              type="tel"
+              placeholder="01xxxxxxxxx"
+              minlength="11"
+              [disabled]="paymentMethod.value === ''"
+              [required]="paymentMethod.value !== ''"
+              matInput
+              [(ngModel)]="loggedUser.payment_method_number"
+              name="payment_method_number"
+              #name="ngModel"
+              #paymentMethodNumber="ngModel"
+            />
+            <mat-error *ngIf="paymentMethodNumber.hasError('required')">
+              هذا الحقل <strong>اجباري</strong>
+            </mat-error>
+            <mat-error *ngIf="paymentMethodNumber.hasError('minlength')">
+              رقم المحفظة يجب ان لا يقل عن <strong>11 رقم</strong>
+            </mat-error>
+          </mat-form-field>
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="
+              paymentInfoFormGroup.invalid || !paymentInfoFormGroup.dirty
+            "
+          >
+            تعديل البيانات
+          </button>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="passwordFormGroup.control">
+        <ng-template matStepLabel>تغيير كلمة المرور</ng-template>
+        <form
+          #passwordFormGroup="ngForm"
+          (ngSubmit)="changePassword(passwordFormGroup)"
+        >
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*كلمة المرور الحالية</mat-label>
+            <input
+              type="password"
+              required
+              minlength="8"
+              matInput
+              name="password"
+              ngModel
+              #currentPassword="ngModel"
+            />
+            <mat-error
+              *ngIf="
+                currentPassword.hasError('required') && currentPassword.dirty
+              "
+            >
+              هذا الحقل <strong>اجباري</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="
+                currentPassword.hasError('minlength') && currentPassword.dirty
+              "
+            >
+              كلمة المرور لا تقل عن <strong>8 ارقام</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*كلمة المرور الجديدة</mat-label>
+            <input
+              type="password"
+              required
+              minlength="8"
+              appCheckLower
+              appCheckUpper
+              appCheckSymbol
+              appCheckNumber
+              matInput
+              name="newPassword"
+              ngModel
+              #newPassword="ngModel"
+            />
+
+            <mat-error
+              *ngIf="newPassword.hasError('minlength') && newPassword.dirty"
+            >
+              رجاءا ادخل كلمة مرور لا تقل عن 8 احرف و ارقام!
+            </mat-error>
+            <mat-error
+              *ngIf="newPassword.hasError('required') && newPassword.dirty"
+            >
+              هذا الحقل <strong>اجباري</strong>
+            </mat-error>
+
+            <ul class="list-unstyled mt-3 mb-0">
+              <div class="row">
+                <div class="col-md-6">
+                  <li
+                    [style.color]="
+                                newPassword.errors?.['upperCase'] === false ? '#f00':'#080'
+                              "
+                  >
+                    حروف كبيرة
+                    <i
+                      *ngIf="newPassword.errors?.['upperCase'] !== false"
+                      class="fa fa-check"
+                    ></i>
+                    <i
+                      *ngIf="newPassword.errors?.['upperCase'] === false"
+                      class="fa fa-times"
+                    ></i>
+                  </li>
+                  <li
+                    [style.color]="
+                              newPassword.errors?.['lowerCase'] === false ? '#f00':'#080'
+                            "
+                  >
+                    حروف صغيرة
+                    <i
+                      *ngIf="newPassword.errors?.['lowerCase'] !== false"
+                      class="fa fa-check"
+                    ></i>
+                    <i
+                      *ngIf="newPassword.errors?.['lowerCase'] === false"
+                      class="fa fa-times"
+                    ></i>
+                  </li>
+                </div>
+                <div class="col-md-6">
+                  <li
+                    [style.color]="
+                              newPassword.errors?.['symbol'] === false ? '#f00':'#080'
+                            "
+                  >
+                    علامات و اشكال
+                    <i
+                      *ngIf="newPassword.errors?.['symbol'] !== false"
+                      class="fa fa-check"
+                    ></i>
+                    <i
+                      *ngIf="newPassword.errors?.['symbol'] === false"
+                      class="fa fa-times"
+                    ></i>
+                  </li>
+                  <li
+                    [style.color]="
+                            newPassword.errors?.['number'] === false ? '#f00':'#080'
+                          "
+                  >
+                    ارقام
+                    <i
+                      *ngIf="newPassword.errors?.['number'] !== false"
+                      class="fa fa-check"
+                    ></i>
+                    <i
+                      *ngIf="newPassword.errors?.['number'] === false"
+                      class="fa fa-times"
+                    ></i>
+                  </li>
+                </div>
+              </div>
+            </ul>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>*تاكيد كلمة المرور الجديدة</mat-label>
+            <input
+              type="password"
+              required
+              matInput
+              name="confirmPasswordword"
+              ngModel
+              #confirmPasswordword="ngModel"
+            />
+            <mat-error
+              *ngIf="
+                confirmPasswordword.hasError('required') &&
+                confirmPasswordword.dirty
+              "
+            >
+              هذا الحقل <strong>اجباري</strong>
+            </mat-error>
+            <span
+              class="pass-error"
+              *ngIf="
+                confirmPasswordword.value != newPassword.value &&
+                confirmPasswordword.dirty
+              "
+            >
+              كلمة المرور غير متطابقة رجاءا اعد كتابة كلمة المرور
+            </span>
+          </mat-form-field>
+
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="passwordFormGroup.invalid"
+          >
+            تعديل البيانات
+          </button>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
+
+<!-- <swal
+  #errorRecord
+  title="خطا في كلمة المرور "
+  text="كلمة المرور الحالية التي قمت بادخالها خاطئة"
+  icon="error"
+  [showCancelButton]="false"
+  [focusCancel]="false"
+>
+</swal> -->

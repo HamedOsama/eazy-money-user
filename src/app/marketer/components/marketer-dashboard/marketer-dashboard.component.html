@@ -1,0 +1,242 @@
+<app-waiting *ngIf="loading"></app-waiting>
+
+<div class="dashboard" *ngIf="!loading">
+  <div class="all-statistics py-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ allOrders }} </mat-card-title>
+                  <mat-card-subtitle> كل الطلبات </mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-users text-success"></i>
+                </div>
+              </div>
+              <mat-card-actions class="bg-success p-3">
+                <a
+                  routerLink="/buyer/all-orders"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ successOrders }} </mat-card-title>
+                  <mat-card-subtitle> عدد طلباتك الناجحة </mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-database cornflowerblue"></i>
+                </div>
+              </div>
+              <mat-card-actions class="cornflowerblue p-3">
+                <a
+                  routerLink="/buyer/all-orders"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ ordersShipped }} </mat-card-title>
+                  <mat-card-subtitle>عدد الطلبات المشحونة</mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-dollar darkslateblue"></i>
+                </div>
+              </div>
+              <mat-card-actions class="darkslateblue p-3">
+                <a
+                  routerLink="/buyer/all-orders"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ ordersUnderProcess }} </mat-card-title>
+                  <mat-card-subtitle>طلبات قيد المراجعة</mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-bolt text-danger"></i>
+                </div>
+              </div>
+              <mat-card-actions class="bg-danger p-3">
+                <a
+                  routerLink="/buyer/balance"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ canceledOrderd }} </mat-card-title>
+                  <mat-card-subtitle> عدد طلباتك المرفوضة </mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-dollar darkslateblue"></i>
+                </div>
+              </div>
+              <mat-card-actions class="darkslateblue p-3">
+                <a
+                  routerLink="/buyer/all-orders"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ profit }} </mat-card-title>
+                  <mat-card-subtitle>الارباح</mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-users text-success"></i>
+                </div>
+              </div>
+              <mat-card-actions class="bg-success p-3">
+                <a
+                  routerLink="/buyer/all-orders"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="stat shadow rounded">
+            <mat-card class="stat-card">
+              <div
+                class="content p-2 d-flex justify-content-between align-items-baseline"
+              >
+                <div>
+                  <mat-card-title> {{ allBalance }} </mat-card-title>
+                  <mat-card-subtitle> اجمالي رصيدك </mat-card-subtitle>
+                </div>
+                <div>
+                  <i class="fa fa-bolt text-danger"></i>
+                </div>
+              </div>
+              <mat-card-actions class="bg-danger p-3">
+                <a
+                  routerLink="/buyer/balance"
+                  class="text-white d-flex justify-content-between align-items-center"
+                >
+                  <span>مشاهدة التفاصيل</span>
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="all-users-chart data my-5">
+    <div class="container">
+      <h2>
+        <i class="fa fa-info-circle"></i>
+        احصائيات كل الطلبات
+      </h2>
+      <div class="Users-chart">
+        <app-marketer-all-orders-charts></app-marketer-all-orders-charts>
+      </div>
+    </div>
+  </div>
+
+  <div class="products data my-5">
+    <div class="container">
+      <h2>
+        <i class="fa fa-info-circle"></i>
+        احصائيات الطلبات الناجحة
+      </h2>
+      <div class="products-chart">
+        <app-marketer-success-orders-charts></app-marketer-success-orders-charts>
+      </div>
+    </div>
+  </div>
+
+  <div class="blocked-users data my-5">
+    <div class="container">
+      <h2>
+        <i class="fa fa-info-circle"></i>
+
+        احصائيات الطلبات الملغاة
+      </h2>
+      <div class="blocked-users-chart">
+        <app-marketer-rejected-orders-charts></app-marketer-rejected-orders-charts>
+      </div>
+    </div>
+  </div>
+
+  <div class="rejected-products data my-5">
+    <div class="container">
+      <h2>
+        <i class="fa fa-info-circle"></i>
+
+        احصائيات الرصيد
+      </h2>
+      <div class="rejected-products-chart">
+        <app-marketer-balance-charts></app-marketer-balance-charts>
+      </div>
+    </div>
+  </div>
+</div>

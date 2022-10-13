@@ -1,0 +1,289 @@
+<div class="buyers py-5">
+  <div class="container">
+    <h2>ٍكل طلباتك</h2>
+    <div class="mat-elevation-z8">
+      <div class="mat-elevation-z8">
+        <app-waiting *ngIf="loading"></app-waiting>
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="table table-bordered table-responsive text-center"
+          *ngIf="!loading"
+        >
+          <ng-container matColumnDef="_id">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element">{{ element?._id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>اسم المنتج</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.OrderedProduct?.name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="properites">
+            <th mat-header-cell *matHeaderCellDef>الخصائص</th>
+            <td mat-cell *matCellDef="let element">
+              <ul class="p-0 m-0 pe-4">
+                <li
+                  style="list-style-type: circle"
+                  *ngFor="let property of element?.OrderedProperties"
+                >
+                  <p
+                    class="mb-0 d-flex justify-content-between align-items-center"
+                  >
+                    الكمية: {{ property?.amount }} | المقاس:
+                    {{ property?.size }} | اللون: {{ property?.color }}
+                  </p>
+                </li>
+              </ul>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalQuantity">
+            <th mat-header-cell *matHeaderCellDef>الكمية</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.OrderedProduct?.total_amount }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>تاريخ الطلب</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.createdAt | date: "medium" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef>حالة الطلب</th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element.orderState == 0">
+                قيد المراجعة
+              </ng-container>
+              <button class="btn btn-secondary" *ngIf="element.orderState == 1">
+                جاهز للشحن
+              </button>
+              <button class="btn btn-primary" *ngIf="element.orderState == 2">
+                قيد الشحن
+              </button>
+              <button class="btn btn-success" *ngIf="element.orderState == 2">
+                تم التوصيل
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="customerData">
+            <th mat-header-cell *matHeaderCellDef>بيانات العميل</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                title="customerData"
+                (click)="open(customerData, element)"
+                class="ms-4 me-4"
+              >
+                <i class="fa fa-sheet-plastic text-primary"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="shippingPrice">
+            <th mat-header-cell *matHeaderCellDef>سعر الشحن</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.shippingPrice }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef>السعر الكلي</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.totalPrice }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>---</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                title="customerData"
+                (click)="open(orderData, element)"
+                class="ms-4 me-4"
+              >
+                <i class="fa fa-sheet-plastic text-primary"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <mat-paginator
+        [length]="listLength"
+        [pageSize]="10"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+<ng-template #customerData let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">بيانات العميل</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body overflow-auto">
+    <div class="d-flex my-2">
+      <strong style="width: 140px">اسم العميل:</strong>
+      <span style="width: 100%">{{ chosenOrder?.name }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">رقم التليفون: </strong>
+      <span style="width: 100%">{{ chosenOrder?.phone }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">المحافظة:</strong>
+      <span style="width: 100%">{{ chosenOrder?.city }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">المنطقة: </strong>
+      <span style="width: 100%">{{ chosenOrder?.area }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">العنوان بالتفصيل:</strong>
+      <span style="width: 100%">{{ chosenOrder?.address }}</span>
+    </div>
+  </div>
+
+  <div class="text-start mt-3 mb-2 ms-2">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.close('Save click')"
+    >
+      اغلاق
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #orderData let-modal id="modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">بيانات العميل</h4>
+    <button type="button" (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body overflow-auto">
+    <h3 class="mb-3">بيانات المنتج</h3>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">معرف المنتج:</strong>
+      <span style="width: 100%">{{ chosenOrder?.OrderedProduct?._id }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">اسم المنتج:</strong>
+      <span style="width: 100%">{{ chosenOrder?.OrderedProduct?.name }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">النوع:</strong>
+      <span style="width: 100%">{{
+        chosenOrder?.OrderedProduct?.category
+      }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">الوصف:</strong>
+      <span style="width: 100%">{{
+        chosenOrder?.OrderedProduct?.description
+      }}</span>
+    </div>
+    <!-- <div class="d-flex my-2">
+      <strong style="width: 140px">السعر:</strong>
+      <span style="width: 100%">{{
+        chosenOrder?.OrderedProduct?.originalrice
+      }}</span>
+    </div> -->
+    <div class="d-flex my-2">
+      <strong style="width: 140px">سعر البيع:</strong>
+      <span style="width: 100%">{{
+        chosenOrder?.OrderedProduct?.sellPrice
+      }}</span>
+    </div>
+    <h3 class="my-3">بيانات العميل</h3>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">اسم العميل:</strong>
+      <span style="width: 100%">{{ chosenOrder?.name }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">رقم التليفون: </strong>
+      <span style="width: 100%">{{ chosenOrder?.phone }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">المحافظة:</strong>
+      <span style="width: 100%">{{ chosenOrder?.city }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">المنطقة: </strong>
+      <span style="width: 100%">{{ chosenOrder?.area }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">العنوان بالتفصيل:</strong>
+      <span style="width: 100%">{{ chosenOrder?.address }}</span>
+    </div>
+    <h3 class="my-3">بيانات الطلب</h3>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">حالة الطلب:</strong>
+      <span style="width: 100%">
+        <span
+          class="fw-bold fs-6 text-danger"
+          *ngIf="chosenOrder?.orderState === -1"
+          >مرفوض</span
+        >
+        <span
+          class="fw-bold fs-6 text-primary"
+          *ngIf="chosenOrder?.orderState === 0"
+          >قيد الانتظار</span
+        >
+        <span
+          class="fw-bold fs-6 text-success"
+          *ngIf="chosenOrder?.orderState === 1"
+          >مقبول</span
+        >
+      </span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">المواصفات:</strong>
+      <ul
+        *ngIf="chosenOrder?.OrderedProperties.length !== 0"
+        style="width: 100%"
+      >
+        <li
+          style="width: max-content"
+          class="d-flex justify-content-between align-items-center mb-2"
+          *ngFor="let property of chosenOrder?.OrderedProperties"
+        >
+          <span class="mx-2">اللون : {{ property?.color }}</span> -
+          <span class="mx-2">المقاس : {{ property?.size }}</span> -
+          <span class="ms-2">الكمية : {{ property?.amount }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="d-flex my-2">
+      <strong style="width: 140px">سعر الشحن</strong>
+      <span style="width: 100%">{{ chosenOrder?.shippingPrice }}</span>
+    </div>
+    <div class="d-flex my-2">
+      <strong style="width: 140px">اجمالي السعر:</strong>
+      <span style="width: 100%">{{ chosenOrder?.totalPrice }}</span>
+    </div>
+  </div>
+
+  <div class="text-start mt-3 mb-2 ms-2">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.close('Save click')"
+    >
+      اغلاق
+    </button>
+  </div>
+</ng-template>

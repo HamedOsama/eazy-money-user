@@ -1,0 +1,147 @@
+<app-waiting *ngIf="loading"></app-waiting>
+
+<div class="container overflow-auto py-5" *ngIf="!loading">
+  <div class="card p-3 mb-5">
+    <div class="row">
+      <!-- Information -->
+      <div class="col-md-8 col-12 information">
+        <div class="d-flex" *ngIf="product?.image == 0">
+          <div class="alert alert-secondary">لم يتم اضافة اي صور!</div>
+        </div>
+
+        <!-- Product Name  -->
+        <div class="d-flex my-2">
+          <strong style="width: 140px">اسم المنتج: </strong>
+          <span style="width: 100%">{{ product?.name }}</span>
+        </div>
+
+        <!-- Product Description -->
+        <div class="d-flex my-2">
+          <strong style="width: 140px"> الوصف : </strong>
+          <span style="width: 100%">{{ product?.description }}</span>
+        </div>
+
+        <!-- Product Category -->
+        <div class="d-flex my-2">
+          <strong style="width: 140px"> النوع : </strong>
+          <span style="width: 100%">{{ product?.category }}</span>
+        </div>
+
+        <!-- Product SellPrice -->
+        <div class="d-flex my-2">
+          <strong style="width: 140px">سعر البيع : </strong>
+          <span style="width: 100%">{{
+            product?.sellPrice
+              ? product?.sellPrice
+              : "لم يتم الاضافة! يجب تعديل الحالة اولا!"
+          }}</span>
+        </div>
+
+        <!-- Total Amount -->
+        <div class="d-flex my-2">
+          <strong style="width: 140px">الكمية : </strong>
+          <span style="width: 100%">{{ product?.total_amount }}</span>
+        </div>
+
+        <hr />
+
+        <!-- Rate -->
+        <!-- <div class="d-flex my-2">
+          <strong style="width: 140px">عدد التقييمات : </strong>
+          <span style="width: 100%">{{ product?.reviews?.length }}</span>
+        </div>
+        <div class="d-flex my-2">
+          <strong style="width: 140px">التقييم : </strong>
+          <ngb-rating
+            style="width: 100%; font-size: 25px"
+            [rate]="product?.rate"
+          ></ngb-rating>
+        </div> -->
+
+        <!-- Status Information -->
+        <div class="d-flex my-2">
+          <strong style="width: 140px">الحالة : </strong>
+          <span style="width: 100%">
+            <span
+              class="fw-bold fs-6 text-danger"
+              *ngIf="product?.status === -2"
+              >محذوف</span
+            >
+            <span
+              class="fw-bold fs-6 text-danger"
+              *ngIf="product?.status === -1"
+              >مرفوض</span
+            >
+            <span
+              class="fw-bold fs-6 text-primary"
+              *ngIf="product?.status === 0"
+              >قيد الانتظار</span
+            >
+            <span
+              class="fw-bold fs-6 text-success"
+              *ngIf="product?.status === 1"
+              >مقبول</span
+            >
+          </span>
+        </div>
+
+        <!-- Properites Information -->
+        <div class="d-flex my-2">
+          <div>
+            <strong style="width: 140px">المواصفات </strong>
+          </div>
+          <ul
+            class="prop"
+            *ngIf="product?.properties.length !== 0"
+            style="width: 100%"
+          >
+            <li
+              style="width: max-content"
+              class="d-flex justify-content-between align-items-center mb-2"
+              *ngFor="let property of product?.properties"
+            >
+              <span class="mx-2">اللون : {{ property?.color }}</span> -
+              <span class="mx-2">المقاس : {{ property?.size }}</span>
+            </li>
+          </ul>
+          <span
+            *ngIf="product?.properties.length === 0"
+            class="alert alert-warning text-center"
+            style="width: 100%"
+            >لم يتم اضافة مواصفات</span
+          >
+        </div>
+
+        <hr />
+
+        <!-- Delivery Price -->
+        <div class="">
+          <strong style="width: 140px">سعر الشحن : </strong>
+          <div class="row">
+            <div
+              class="col-md-4 col-12"
+              *ngFor="let item of product?.shipping_price | keyvalue"
+            >
+              <span class="delviryPrice">
+                <span class="key"> {{ item.key }}: </span> {{ item.value }} EG
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn" *ngIf="userRole == 'buyer'">طلب شراء</button>
+      </div>
+
+      <!-- Image -->
+      <div class="col-md-4 col-12" *ngIf="product?.image != 0">
+        <ng-container *ngFor="let image of product?.image">
+          <img
+            [src]="apiRootImage + image"
+            alt="Product image"
+            class="img-fluid"
+          />
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

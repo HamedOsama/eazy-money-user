@@ -1,0 +1,158 @@
+<div class="contact position-relative">
+  <div *ngIf="!showLoading" class="container">
+    <div class="heading text-center mb-5">
+      <h2 core-main-heading>تواصل مع ايزي موني</h2>
+      <p>
+        تواصل مع مسئولين ايزي موني لارسال ملاحظاتك او اي مشكلة تواجهك في الموقع
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="mb-5 mb-lg-0 col-lg-6">
+        <div class="contact-info">
+          <h3>التقديمات التجارية</h3>
+          <p>اذا واجهتك اي مشاكل او تريد تقديم اي اقتراحات تواصل معنا عبر:</p>
+          <div class="contact-ways mt-4">
+            <div>
+              <i class="fa fa-envelope fs-2"></i>
+              <p>eazymoney@gmail.com</p>
+            </div>
+            <div>
+              <i class="fa fa-phone fs-2"></i>
+              <p>010 5262 1021</p>
+            </div>
+          </div>
+          <hr />
+          <div class="social">
+            <h3 class="mb-4">وسائل التواصل الاجتماعي الخاصة بنا</h3>
+            <p>يمكنك متابعة اخر الاخبار من خلال الروابط التالية</p>
+            <div class="social-links">
+              <a
+                class="border-1"
+                href="{{ contact_data?.faceBook }}"
+                target="blank"
+              >
+                <i class="fa fa-facebook-square"></i>
+              </a>
+              <a
+                class="border-1"
+                href="{{ contact_data?.twitter }}"
+                target="blank"
+              >
+                <i class="fa fa-twitter"></i>
+              </a>
+              <a
+                class="border-1"
+                href="{{ contact_data?.instagram }}"
+                target="blank"
+              >
+                <i class="fa fa-instagram"></i>
+              </a>
+              <a
+                class="border-1"
+                href="{{ contact_data?.youtube }}"
+                target="blank"
+              >
+                <i class="fa fa-youtube-play"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="contact-form">
+          <form #form="ngForm" (ngSubmit)="sendContact(form)">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>عنوان الرسالة</mat-label>
+              <input
+                type="text"
+                matInput
+                name="title"
+                ngModel
+                #title="ngModel"
+              />
+              <!-- <mat-error *ngIf="title.hasError('required')">
+                هذا الحقل <strong>اجباري</strong>
+              </mat-error> -->
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>الاسم</mat-label>
+              <input
+                type="text"
+                matInput
+                name="name"
+                ngModel
+                #name="ngModel"
+                required
+              />
+              <mat-error *ngIf="name.hasError('required')">
+                هذا الحقل <strong>اجباري</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>البريد الالكتروني</mat-label>
+              <input
+                type="tel"
+                matInput
+                name="email"
+                ngModel
+                #email="ngModel"
+                required="{{ form.value.phone == '' }}"
+              />
+              <mat-error
+                *ngIf="email.hasError('email') && !email.hasError('required')"
+              >
+                رجاءا قم بادخال بريد الكتروني صحيح
+              </mat-error>
+              <mat-error *ngIf="email.hasError('required')">
+                هذا الحقل <strong>اجباري</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>رقم الجوال</mat-label>
+              <input
+                type="tel"
+                matInput
+                name="phone"
+                ngModel
+                #phone="ngModel"
+                required="{{ form.value.email == '' }}"
+              />
+              <mat-error *ngIf="phone.hasError('required')">
+                هذا الحقل <strong>اجباري</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>الرسالة</mat-label>
+              <textarea matInput name="mess" ngModel #mess="ngModel"></textarea>
+              <!-- <mat-error *ngIf="mess.hasError('required')">
+                هذا الحقل <strong>اجباري</strong>
+              </mat-error> -->
+            </mat-form-field>
+
+            <button
+              type="submit"
+              class="d-block"
+              mat-raised-button
+              [disabled]="form.invalid"
+            >
+              ارسال
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <swal
+    #swalSuccess
+    title="ارسال رسالة الي المسئولين"
+    text="???????????????????????????"
+    icon="success"
+    [showCloseButton]="false"
+    [focusCancel]="false"
+  >
+  </swal> -->
+</div>
