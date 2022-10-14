@@ -45,7 +45,7 @@
 }
 
 .img-fluid,
-img {
+img:first-child {
   width: 90%;
   margin: 10px 2%;
   height: 250px;
@@ -59,4 +59,12 @@ img {
   outline: #056eb8;
   border: none;
   margin-top: 10px;
+}
+
+.img-fluid:nth-child(2),
+.img-fluid:nth-child(3),
+.img-fluid:nth-child(4) {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
 }

@@ -32,21 +32,18 @@
       </div>
     </div>
 
-    <app-waiting *ngIf="loadingData"></app-waiting>
-
     <!-- Section For Show Products -->
-    <div class="row" *ngIf="!loadingData">
+    <div class="row">
       <div
         class="prd col-lg-3 col-md-4 col-sm-6 col-12"
         *ngFor="let li of allProducts"
       >
         <app-product-card
           [data]="li"
-          [userRole]="user?.role"
+          [userRole]="userRole"
           (item)="addToCart($event)"
         ></app-product-card>
-
-        <!-- <div class="prd-card"
+        <!-- <div class="prd-card">
             <div class="prd-img">
               <img src="https://picsum.photos/200" />
             </div>
@@ -56,14 +53,28 @@
               <h4> السعر: {{ li.price }} </h4>
               <button class="prd-btn" (click)="add()" > اضافة الى عربة التسوق </button>
             </div>
-          </div>
+          </div> -->
       </div>
-    </div> -->
+    </div>
 
-        <!-- Making Progress Spinner -->
+    <mat-paginator
+      class="pagintor"
+      [style.visibility]="!loadingData ? 'visible' : 'hidden'"
+      [length]="productLength"
+      [pageSize]="10"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+      aria-label="Select page"
+    >
+    </mat-paginator>
 
-        <!-- Swipper -->
-        <!-- <div class="col-12">
+    <!-- Making Progress Spinner -->
+    <div class="text-center w-100" [hidden]="!loadingData">
+      <app-waiting></app-waiting>
+    </div>
+
+    <!-- Swipper -->
+    <!-- <div class="col-12">
       <div class="swiper-container" [swiper]="config" *ngIf="domanations.length">
         <div class="swiper-wrapper">
           <div class="swiper-slide" *ngFor="let domanation of domanations; let i = index">
@@ -84,17 +95,5 @@
         </div>
       </div>
     </div> -->
-      </div>
-      <mat-paginator
-        class="pagintor"
-        [style.visibility]="!loadingData ? 'visible' : 'hidden'"
-        [length]="productLength"
-        [pageSize]="12"
-        (page)="onPageChange($event)"
-        showFirstLastButtons
-        aria-label="Select page"
-      >
-      </mat-paginator>
-    </div>
   </div>
 </div>

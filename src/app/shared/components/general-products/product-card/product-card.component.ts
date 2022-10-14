@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductData } from '../../../../helper/interfaces/product-data';
 import { environment } from 'src/environments/environment.prod';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./product-card.component.css'],
   providers: [NgbRatingConfig],
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
   @Input() data: any = {};
   @Input() userRole: any;
   @Output() item = new EventEmitter();
@@ -19,18 +19,6 @@ export class ProductCardComponent implements OnInit {
   imageRoot = environment.apiRootImage;
 
   constructor(private router: Router) {}
-
-  ngOnInit() {}
-
-  addItem() {
-    this.item.emit(this.data);
-    this.addCartBtn = true; // To hide button from card if you add it in cart list
-  }
-
-  // Get Product Details By Modal
-  productDetails(productData: any) {
-    this.productData = productData;
-  }
 
   openProductdDetails(id: any) {
     if (!this.userRole) {

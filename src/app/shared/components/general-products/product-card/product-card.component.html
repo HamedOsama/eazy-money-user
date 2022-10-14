@@ -1,24 +1,9 @@
 <div class="prd-card" (click)="openProductdDetails(data?._id)">
-  <!--
-  routerLink="/sales-website/product-details/{{ data._id }}"
-  --
->
-
-  <!-- [routerLink]="
-    userRole == 'buyer'
-      ? '/marketer/product-details/{{data._id}}'
-      : '/sales-website/proudct-details/{{data._id}}'
-  " -->
-  <!-- (click)="openProductdDetails()" -->
   <div class="prd-img">
     <img src="{{ imageRoot }}{{ data?.image[0] }}" />
     <!-- <div *ngIf="data?.image != 0">
       <ng-container *ngFor="let image of data?.image">
-        <img
-          [src]="imageRoot + image"
-          alt="Product image"
-          class="img-fluid"
-        />
+        <img [src]="imageRoot + image" alt="Product image" class="img-fluid" />
       </ng-container>
     </div>
     <div *ngIf="data?.image == 0">
@@ -55,15 +40,14 @@
         </div>
 
         <div class="col-md-6 col-12">
-          <!-- <ngb-rating
-            [max] = "5"
+          <ngb-rating
+            [max]="5"
             [rate]="data.rate"
-            [readonly] = "true"
-          ></ngb-rating> -->
+            [readonly]="true"
+          ></ngb-rating>
         </div>
       </div>
 
-      <!-- button -->
       <button
         class="prd-btn"
         *ngIf="userRole != 'buyer'"

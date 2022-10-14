@@ -74,7 +74,7 @@ export class MerchantAllProductsComponent
   selectedSeller!: UserModel | any;
   imageRoot = environment.apiRootImage;
   imgPath: any = null;
-  selectedImage: any = null;
+  selectedImage: any = [];
   productProperties: any[] = [];
   shipping_price: any[] = [];
   sizes = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'];
@@ -178,11 +178,6 @@ export class MerchantAllProductsComponent
     this.productData = productData;
   }
 
-  showPreview(event: any) {
-    this.files = event.target.files;
-    this.selectedImage = <File>event.target.files;
-  }
-
   addProperity(color: any, size: any, amount: any) {
     let properity = {
       color: color,
@@ -198,6 +193,17 @@ export class MerchantAllProductsComponent
   updateShippingPrice(gov: any, price: any) {
     this.shipping_price[gov] = price;
     this.toast.success(`تم تعديل سعر شحن محافظة ${gov}`);
+  }
+
+  // onFileSelected(event: any) {
+  //   this.selectedFile = <File>event.target.files[0];
+  //   this.imageSelected = true;
+  // }
+
+  showPreview(event: any) {
+    console.log(event);
+    this.files = event.target.files;
+    this.selectedImage.push(<File>event.target.files[0]);
   }
 
   addProduct(data: any) {

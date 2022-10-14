@@ -1,5 +1,6 @@
 .products {
-  padding: 100px;
+  padding: 100px 0;
+  height: 100%;
 }
 
 .products .prd-heading {
@@ -47,10 +48,6 @@
   margin: 10px 2%;
   height: 100%;
   margin-bottom: 10px;
-}
-
-.mat-paginator {
-  background-color: var(--backup-color) !important;
 }
 
 .mat-progress-spinner {

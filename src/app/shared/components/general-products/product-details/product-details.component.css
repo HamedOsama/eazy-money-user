@@ -1,15 +1,180 @@
-button {
+.body-details {
   width: 100%;
+  height: 100%;
   color: white;
-  background-color: var(--main-color);
-  border: none;
-  outline: #056eb8;
-  display: block;
-  margin: 30px 0 20px;
-  transition: 0.5s;
+  /* background-color: #2e94aa; */
 }
 
-button:hover {
-  color: white;
-  background-color: var(--sub-color);
+.card {
+  margin: 100px 0px;
+  border: 3px #2e94aa;
+  background-color: var(--main-color);
 }
+
+.card .right-sec {
+  margin-top: 70px;
+}
+
+.card .left-sec {
+  padding: 0px 30px;
+}
+
+.card .information {
+  background-color: var(--backup-color);
+
+  /* background-color: #1e6f81; */
+}
+
+.card .information .info h2 {
+  margin-bottom: 50px;
+}
+
+.card .btn-navbar-details {
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.card .btn-navbar-details .btn-price svg {
+  margin-left: 5px;
+}
+
+.card .btn-navbar-details .btn-toggle .line {
+  background-color: white;
+  height: 2px;
+  width: 70px;
+}
+
+.card .btn-navbar-details .btn-toggle .line:hover {
+  width: 180px;
+  transition: all 0.5s ease-in-out;
+}
+
+.card .img-fluid {
+  width: 95%;
+  padding: 10px;
+  height: 500px;
+}
+
+.card span {
+  /* text-align: center ; */
+  line-height: 3.2em;
+  font-size: 20px;
+}
+
+.card .bttn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 25px;
+}
+
+.card .btn-back {
+  text-align: right;
+  margin-top: 50px;
+  margin-bottom: 70px;
+  font-size: 20px;
+}
+
+.card .btn-back svg {
+  margin-left: 7px;
+}
+
+.card .btn-toggle {
+  text-align: center;
+}
+
+.card .btn-more,
+.delviryPrice {
+  margin: 45px 0px;
+}
+
+.delviryPrice .key {
+  /* font-weight: bold ;  */
+  line-height: 2.2em;
+  font-size: 24px;
+  text-transform: capitalize;
+}
+
+.card .img-fluid:nth-child(2),
+.card .img-fluid:nth-child(3),
+.card .img-fluid:nth-child(4) {
+  height: 200px;
+  width: 31.6%;
+  margin-top: 20px;
+}
+
+.card .information,
+.displayed-info,
+.delviryPrice {
+  text-align: center;
+}
+
+.displayed-info {
+  margin-top: 50px;
+}
+
+.card .btn-navbar-details .btn-toggle .btn-price,
+.card .btn-navbar-details .btn-toggle .btn-log {
+  margin-bottom: 8px;
+}
+
+/* ul {
+    display: flex ;
+    justify-content: space-between ;
+    align-items: center ;
+} */
+
+/* ul li {
+    list-style: none ;
+    float: left ;
+    margin-right: 30px ;
+    margin-bottom: 20px ;
+    background-color: #056eb8 ;
+    padding: 10px ;
+    color: white ;
+
+} */
+
+/* ul li span{font-weight: bold} */
+
+/* .prd-card .prd-img img {height: 95%} */
+
+/* ngb-carousel {
+    max-width: 700px;
+    margin: 50px auto;
+}
+ngb-carousel img {
+    width: 95% ;
+    padding: 10px ;
+    height: 400px ;
+}
+ngb-carousel {
+    width: inherit;
+    height: inherit;
+}
+.carousel-inner {
+    overflow: visible;
+}
+.carousel-item {
+    display: flex !important;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s ease-in-out, visibility 1.2s;
+    z-index: -1;
+}
+.carousel-item.active{
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+.carousel-control-prev {
+     z-index: 20;
+}
+
+.carousel-control-next {
+     z-index: 20;
+}
+.carousel-indicators{
+    z-index: 20;
+} */

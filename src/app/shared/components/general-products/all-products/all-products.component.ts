@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { environment as env } from 'src/environments/environment.prod';
-// import { MainService } from '../../../services/main.service';
 import { GeneralProductsService } from 'src/app/helper/services/general-products.service';
-import { AuthService } from 'src/app/helper/services/auth.service';
+// import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-all-products',
@@ -11,19 +9,18 @@ import { AuthService } from 'src/app/helper/services/auth.service';
   styleUrls: ['./all-products.component.css'],
 })
 export class AllProductsComponent implements OnInit {
-  user: any;
   allProducts: any;
   allCategory: any;
-  imageRoot = env.apiRoot;
+  userRole: any;
   filterListedName: any[] = [];
   filterBy: any;
-  loadingData = true;
+  loadingData: boolean = true;
   value: any;
   cartItems: any[] = [];
   totalAmount: any;
   paginationObject = {
     page: 1,
-    limit: 300,
+    limit: 10,
   };
   productLength: any;
   subscription: Subscription = new Subscription();
@@ -59,24 +56,24 @@ export class AllProductsComponent implements OnInit {
   //   }
   // }
 
-  constructor(private gps: GeneralProductsService, private as: AuthService) {}
+  constructor(private gps: GeneralProductsService) {}
 
   ngOnInit() {
-    this.as.user.subscribe((res) => {
-      this.user = res;
-      console.log(this.user);
-    });
     this.getAllProduct(this.paginationObject);
     this.getAllCategories();
+    this.userRole = localStorage.getItem('userRole');
   }
 
   // Function to get all Product
   getAllProduct(pagination: any) {
     this.gps.getAllProducts(pagination).subscribe({
       next: (res: any) => {
-        this.allProducts = res?.body;
-        this.productLength = res?.totalLength;
-        this.loadingData = false;
+        if (res.message === 'succeeded') {
+          this.allProducts = res?.body;
+          this.productLength = res?.totalLength;
+          this.loadingData = false;
+        }
+        console.log(res);
       },
       error: (err: any) => {
         console.log(err);
@@ -91,6 +88,7 @@ export class AllProductsComponent implements OnInit {
         if (res.message === 'succeeded') {
           this.allCategory = res?.body;
         }
+        console.log(res);
       },
       error: (err: any) => {
         console.log(err);
@@ -128,7 +126,6 @@ export class AllProductsComponent implements OnInit {
 
   // Filters Of Product [Category ]
   filterByCategory(filterTerm: any) {
-    this.loadingData = true;
     // console.log(filterTerm);
     if (filterTerm === undefined) {
       this.getAllProduct(this.paginationObject);
@@ -137,7 +134,7 @@ export class AllProductsComponent implements OnInit {
         this.gps.filterProductsByCategory(filterTerm).subscribe({
           next: (res: any) => {
             this.allProducts = res?.body;
-            this.loadingData = false;
+            console.log(this.allProducts);
           },
           error: (err: any) => {
             console.log(err);
@@ -149,7 +146,7 @@ export class AllProductsComponent implements OnInit {
 
   // ##### Pagination Setting
   onPageChange(ev: any) {
-    this.loadingData = true;
+    // console.log(ev);
     this.paginationObject.page = +ev.pageIndex + 1;
     this.getAllProduct(this.paginationObject);
   }

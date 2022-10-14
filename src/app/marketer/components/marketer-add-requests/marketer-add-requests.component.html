@@ -1,6 +1,6 @@
 <div class="add-requests py-5 section-styles">
   <div class="container">
-    <h2 class="main-heading">اضافة منتج</h2>
+    <h2 class="main-heading">اضافة طلب شراء</h2>
     <div class="card">
       <div class="container-fliud">
         <div class="wrapper row">
@@ -9,7 +9,7 @@
               <div class="tab-pane active" id="pic-1">
                 <img src="{{ apiRootImage }}{{ product?.image[0] }}" />
               </div>
-              <div class="tab-pane" id="pic-2">
+              <!-- <div class="tab-pane" id="pic-2">
                 <img src="http://placekitten.com/400/252" />
               </div>
               <div class="tab-pane" id="pic-3">
@@ -20,7 +20,7 @@
               </div>
               <div class="tab-pane" id="pic-5">
                 <img src="http://placekitten.com/400/252" />
-              </div>
+              </div> -->
             </div>
             <!-- <ul class="preview-thumbnail nav nav-tabs">
               <li class="active">
@@ -103,7 +103,7 @@
     </div>
 
     <div class="order-data">
-      <h4>اضافة البيانات</h4>
+      <h4 class="mx-4">اضافة البيانات</h4>
       <mat-stepper
         [orientation]="(stepperOrientation | async)!"
         [linear]="isLinear"
@@ -179,7 +179,7 @@
                 mat-button
                 type="submit"
                 (click)="returnNewPrice(newPrice)"
-                class="bg-success"
+                class="bg-success d-block m-auto"
                 [disabled]="newPrice.invalid"
               >
                 تاكيد طلب المنتجات
