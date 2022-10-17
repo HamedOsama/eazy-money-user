@@ -83,6 +83,7 @@ td p {
 table {
   width: 100%;
   margin-bottom: 0px !important;
+  vertical-align: middle;
 }
 
 .mat-form-field {

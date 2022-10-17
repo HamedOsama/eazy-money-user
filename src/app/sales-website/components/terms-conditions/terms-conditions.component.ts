@@ -6,5 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms-conditions.component.css'],
 })
 export class TermsConditionsComponent implements OnInit {
+  panelOpenState = false;
   ngOnInit(): void {}
 }

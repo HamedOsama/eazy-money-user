@@ -6,7 +6,7 @@
   <div
     class="example-container"
     [class.example-is-mobile]="mobileQuery.matches"
-    [hidden]="loading"
+    *ngIf="!loading"
   >
     <mat-toolbar
       color="primary"

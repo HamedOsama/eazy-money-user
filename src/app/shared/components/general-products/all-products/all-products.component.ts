@@ -20,7 +20,7 @@ export class AllProductsComponent implements OnInit {
   totalAmount: any;
   paginationObject = {
     page: 1,
-    limit: 10,
+    limit: 12,
   };
   productLength: any;
   subscription: Subscription = new Subscription();

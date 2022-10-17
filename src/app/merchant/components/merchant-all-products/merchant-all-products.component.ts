@@ -76,7 +76,35 @@ export class MerchantAllProductsComponent
   imgPath: any = null;
   selectedImage: any = [];
   productProperties: any[] = [];
-  shipping_price: any[] = [];
+  shipping_price: any = {
+    cairo: 35,
+    giza: 35,
+    alexandria: 35,
+    'ain sokhna': 50,
+    'al Fayoum': 50,
+    'al gharbia': 50,
+    'al sharqia': 50,
+    aswan: 50,
+    asyut: 50,
+    'bani sweif': 50,
+    dakahlia: 50,
+    damietta: 50,
+    'el beheira': 50,
+    'el menya': 50,
+    'red sea': 50,
+    ismailia: 50,
+    'kafr el sheikh': 50,
+    'new valley': 50,
+    'north sinai': 50,
+    matruh: 50,
+    luxor: 50,
+    'el menofia': 50,
+    'port said': 50,
+    qena: 50,
+    sohag: 50,
+    'south of sinai': 50,
+    suez: 50,
+  };
   sizes = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'];
   selectedProductStatus: any;
 
@@ -201,9 +229,13 @@ export class MerchantAllProductsComponent
   // }
 
   showPreview(event: any) {
-    console.log(event);
+    // console.log(event.target.files);
+    // [...event.target.files].map((file: any) => {
+    //   this.files.push(file.name);
+    //   console.log(file);
+    // });
     this.files = event.target.files;
-    this.selectedImage.push(<File>event.target.files[0]);
+    this.selectedImage = <File>event.target.files;
   }
 
   addProduct(data: any) {
@@ -221,13 +253,19 @@ export class MerchantAllProductsComponent
       shipping_price: this.shipping_price,
     };
 
-    console.log(productModel);
+    // console.log(productModel);
 
     this.subscription.add(
       this.mps.addProduct(productModel, this.token).subscribe({
         next: (res: any) => {
-          this.toast.success('تم اضافة المنتج بنجاح');
-          this.getYourOwnProducts(this.paginationObject, this.token);
+          console.log(res);
+          this.mps
+            .updateProduct(res?.body?._id, fd, this.token)
+            .subscribe((res) => {
+              console.log(res);
+              this.toast.success('تم اضافة المنتج بنجاح');
+              this.getYourOwnProducts(this.paginationObject, this.token);
+            });
         },
         error: (err) => {
           this.toast.error(err?.error?.message, 'خطأ في اضافة المنتج');
@@ -244,14 +282,14 @@ export class MerchantAllProductsComponent
   getProductToEdit(data: any) {
     this.editedProduct = data;
     this.productProperties = this.editedProduct.properties;
-    this.shipping_price = data.shipping_price;
     this.files = data?.image;
+    // console.log(this.files);
   }
   editProduct(id: any, data: any) {
-    console.log(data);
     this.waiting = true;
 
     const fd = new FormData();
+
     for (let i = 0; i < this.selectedImage?.length; i++) {
       fd.append('avatar', this.selectedImage[i], this.selectedImage[i].name);
     }
@@ -263,7 +301,7 @@ export class MerchantAllProductsComponent
       category: data?.category,
       description: data?.description,
       properties: this.productProperties,
-      shipping_price: this.shipping_price,
+      seller: data?.seller,
     };
 
     if (Object.keys(fd).length === 0) {
