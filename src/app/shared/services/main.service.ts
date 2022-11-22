@@ -11,7 +11,7 @@ export class MainService {
     private http: HttpClient,
     private title: Title,
     private meta: Meta
-  ) {}
+  ) { }
 
   // getLoggedUser(token: any) {
   //   return this.http.get(`${env.apiRoot}users/get-user`, {
@@ -119,6 +119,14 @@ export class MainService {
 
   sendAMessageForUs(form: any) {
     return this.http.post(`${env.apiRoot}contact-us/add`, form);
+  }
+
+  uploadImages(data: any, token: any) {
+    return this.http.post(`http://153.92.208.221/api/v1/images`, data, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   setTitleAndMeta(title: any, url: any) {

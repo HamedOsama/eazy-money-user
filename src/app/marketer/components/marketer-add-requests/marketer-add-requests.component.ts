@@ -33,6 +33,7 @@ export class MarketerAddRequestsComponent implements OnInit {
   newPrice: number = 0;
   shippingPrice = 0;
   totalPrice = 0;
+  currentImage: any;
 
   stepperOrientation: Observable<StepperOrientation>;
 
@@ -64,6 +65,10 @@ export class MarketerAddRequestsComponent implements OnInit {
           }
         }
       });
+  }
+
+  changeImage(image: any) {
+    this.currentImage = image;
   }
 
   fakeArray(length: number) {

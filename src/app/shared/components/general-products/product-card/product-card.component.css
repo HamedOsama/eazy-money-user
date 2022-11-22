@@ -1,70 +1,131 @@
-.prd-card {
-  background-color: white;
-  /* border-radius: 20px; */
-  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
-  background-color: rgb(249, 246, 246);
-  height: 100%;
-  padding-bottom: 20px;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.product-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  position: relative;
   cursor: pointer;
+  padding-bottom: 10px;
 }
 
-/* .prd-card:hover {
-    transition: all 0.5s ease-in-out;
-    transform: scale(1.1);
-    box-shadow: #e8f8f7 0px 3px 8px;
-    border-radius: 20px;
-} */
-
-.prd-card .prd-info {
-  text-align: right;
-  padding-right: 15px;
+.card:hover .heart {
+  top: 10px;
 }
 
-.prd-card .prd-info p {
-  margin-top: 20px;
-  font-weight: bold;
+.heart {
+  z-index: 1;
+  position: absolute;
+  top: -60px;
+  right: 10px;
+  transition: all 0.5s;
 }
 
-.prd-card .prd-info ngb-rating {
-  color: #ffc107;
-  font-size: 20px;
+.heart i {
+  font-size: 22px;
+  color: var(--main-color);
 }
 
-.prd-card .prd-img {
+.heart-red {
+  color: red !important;
+}
+
+.top-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
 }
-.prd-card .prd-img {
-  position: block;
-}
-.prd-card .prd-img .eye-icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding-left: 20px;
-  padding-top: 18px;
+
+.top-div .border {
+  width: 100%;
+  height: 200px;
 }
 
-.img-fluid,
-img:first-child {
-  width: 90%;
-  margin: 10px 2%;
-  height: 250px;
+.top-div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover
+}
+
+.top-div span {
+  height: 28px;
+  /* width: 80px; */
+  background-color: var(--main-color);
+  color: #fff;
+  position: absolute;
+  top: 185px;
+  left: 20px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  padding: 10px;
+}
+
+.bottom-div {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.bottom-div p {
+  font-size: 13px;
+  color: #A89495;
+}
+
+.last-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.fa-shopping-bag {
+  font-size: 25px;
+  color: var(--main-color);
+}
+
+.fa-comment-o {
+  font-size: 25px;
+  color: var(--main-color);
+  margin-left: 10px;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons button {
+  color: var(--main-color);
+  border: 2px solid var(--main-color);
+  background-color: #fff;
+  font-size: 13px;
+  border-radius: 3px;
+  transition: all 0.5s;
+  padding: 0 20px;
   margin-bottom: 10px;
 }
 
-.prd-card button {
-  background-color: #056eb8;
+.buttons button:hover {
   color: white;
-  padding: 10px 22px;
-  outline: #056eb8;
-  border: none;
-  margin-top: 10px;
-}
+  background-color: var(--main-color);
 
-.img-fluid:nth-child(2),
-.img-fluid:nth-child(3),
-.img-fluid:nth-child(4) {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
 }

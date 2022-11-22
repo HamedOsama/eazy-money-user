@@ -14,7 +14,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 export class LoginComponent implements OnInit, OnDestroy {
   // @ViewChild('errorRecord') private errorRecord!: SwalComponent;
   showWaiting: boolean;
-
+  showPassword = false;
   subscription: Subscription = new Subscription();
 
   constructor(
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.showWaiting = false;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   login(form: any) {
     this.showWaiting = true;

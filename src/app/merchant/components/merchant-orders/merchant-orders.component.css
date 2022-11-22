@@ -8,9 +8,11 @@ h2 {
   border-bottom: 3px solid #056eb8;
   padding-bottom: 8px;
 }
+
 .mat-elevation-z8 {
   min-width: 600px;
 }
+
 table {
   width: 100%;
   margin-bottom: 0px !important;
@@ -47,6 +49,7 @@ table {
   background-color: #056eb8;
   height: auto;
 }
+
 :host ::ng-deep thead tr th {
   color: #fff;
   font-size: 15px;
@@ -80,6 +83,7 @@ table {
   font-weight: 500;
   white-space: nowrap;
   padding: 10px;
+  vertical-align: middle;
 }
 
 .mat-form-field.filter {

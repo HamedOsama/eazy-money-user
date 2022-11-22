@@ -17,13 +17,12 @@ export class MarketerDashboardComponent implements OnInit {
   allBalance: any;
   loading = true;
 
-  constructor(private as: AuthService) {}
+  constructor(private as: AuthService) { }
 
   ngOnInit(): void {
     this.as
       .getLoggedUserAllInfo(localStorage.getItem('userToken'))
       .subscribe((res: any) => {
-        console.log(res);
         this.allOrders = res.body.allOrders;
         this.successOrders = res.body.ordersFinished;
         this.ordersShipped = res.body.ordersShipped;

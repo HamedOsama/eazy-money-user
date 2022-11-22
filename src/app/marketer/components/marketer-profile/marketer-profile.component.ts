@@ -96,14 +96,13 @@ export class MarketerProfileComponent implements OnInit {
   uploadImage() {
     const fd = new FormData();
     fd.append('avatar', this.selectedFile, this.selectedFile?.name);
-    this.mainService.uploadImage(fd, this.token).subscribe((res) => {
-      this.authService
-        .getLoggedUserPersonalInfo(this.token)
-        .subscribe((response: any) => {
-          this.authService.user.next(response?.body);
-          this.imageSelected = false;
-          this.toast.success('تم تغيير الصورة بنجاح', 'تغيير الصورة الشخصية');
-        });
+
+    this.mainService.uploadImages(fd, this.token).subscribe((res: any) => {
+      this.mainService.updateUserData({ image: res.data[0] }, this.token).subscribe((response: any) => {
+        this.authService.user.next(response?.body);
+        this.imageSelected = false;
+        this.toast.success('تم تغيير الصورة بنجاح', 'تغيير الصورة الشخصية');
+      })
     });
   }
 

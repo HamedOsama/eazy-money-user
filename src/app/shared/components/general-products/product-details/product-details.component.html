@@ -1,292 +1,68 @@
-<div class="body-details">
-  <div class="container overflow-auto">
-    <div class="card">
-      <div class="row">
-        <!-- Information -->
-        <div class="col-md-3 col-12 information">
-          <!-- Arrow to back -->
-          <div class="d-flex m-2">
-            <button
-              type="button"
-              class="bttn btn-back"
-              (click)="routeToAllProducts()"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                fill="currentColor"
-                class="bi bi-arrow-right"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-                />
-              </svg>
-              الرجوع الى المنتجات
-            </button>
+<div class="container mt-5 mb-5">
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-md-6 border-end">
+        <div class="d-flex flex-column justify-content-center">
+          <div class="main_image"> <img [src]="this.currentImage ?? data.image[0]" id="main_product_image" width="350"
+              height="300">
           </div>
-
-          <div class="right-sec">
-            <!-- Product Name  -->
-            <div class="d-flex my-2 info">
-              <h2 style="width: 100%">{{ data.name }}</h2>
-            </div>
-
-            <!-- Product SellPrice -->
-            <div class="d-flex my-2 info">
-              <h3 style="width: 100%">
-                {{
-                  data.sellPrice
-                    ? data.sellPrice
-                    : "لم يتم الاضافة! يجب تعديل الحالة اولا!"
-                }}EGP
-              </h3>
-            </div>
-
-            <!-- Product Category -->
-            <div class="d-flex my-2 info">
-              <span style="width: 100%">{{ data.category }}</span>
-            </div>
-
-            <!-- Total Amount -->
-            <div class="d-flex my-2">
-              <!-- <strong style="width: 140px">الكمية : </strong> -->
-              <span style="width: 100%">{{ data.total_amount }}</span>
-            </div>
+          <div class="thumbnail_images">
+            <ul id="thumbnail">
+              <li *ngFor="let image of data.image"><img (click)="changeImage(image)" src="{{image}}" width="70"
+                  height="50"></li>
+              <!-- <li><img onclick="changeImage(this)" src="https://i.imgur.com/w6kEctd.jpg" width="70"></li>
+              <li><img onclick="changeImage(this)" src="https://i.imgur.com/L7hFD8X.jpg" width="70"></li>
+              <li><img onclick="changeImage(this)" src="https://i.imgur.com/6ZufmNS.jpg" width="70"></li> -->
+            </ul>
           </div>
         </div>
-
-        <div class="col-md-1 col-12"></div>
-
-        <!-- Image -->
-        <div class="col-md-8 col-12 left-sec">
-          <!-- Button in details navbar -->
-          <div class="btn-navbar-details d-flex">
-            <!-- Btn To LogIn -->
-            <!-- <div class="btn-toggle">
-              <button
-                type="button"
-                class="bttn btn-more btn-log"
-                routerLink="/logIn"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  fill="currentColor"
-                  class="bi bi-person"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"
-                  />
-                </svg>
-                تسجيل الدخول
-              </button>
-              <div class="line"></div>
-            </div> -->
-
-            <!-- Btn To Show shipping price -->
-            <div class="btn-toggle">
-              <button
-                type="button"
-                class="bttn btn-more btn-price"
-                (click)="toggleShippingData()"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  fill="currentColor"
-                  class="bi bi-truck"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
-                  />
-                </svg>
-                أسعار التوصيل
-              </button>
-              <div class="line"></div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 right-side">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>{{data.name}}</h3>
+            <!-- <span class="heart"><i class='bx bx-heart'></i></span> -->
+          </div>
+          <div class="mt-2 pr-3 content">
+            <p>{{data.description}}</p>
+          </div>
+          <h3>E&#xa3; {{data.sellPrice}}</h3>
+          <!-- <div class="ratings d-flex flex-row align-items-center">
+            <div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+                class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bx-star'></i> </div> <span>441
+              reviews</span>
+          </div> -->
+          <div class="mt-5"> <span class="fw-bold">الألوان المتاحة</span>
+            <div class="colors">
+              <ul id="marker">
+                <li *ngFor="let property of data.properties">{{property.color}}</li>
+              </ul>
             </div>
           </div>
-          <!-- Image Card -->
-          <div *ngIf="isDisplayData == false && !isDisplayShippingPrice">
-            <!-- <ngb-carousel #ngcarousel>
-              <ng-template ngbSlide id="one">
-                <div class="picsum-img-wrapper">
-                  <img [src]="imageRoot + image1" alt="Slide 1">
-                </div>
-              </ng-template>
-              <ng-template ngbSlide id="two">
-                <div class="picsum-img-wrapper">
-                  <img [src]="imageRoot + image2" alt="Slide 2">
-                </div>
-              </ng-template>
-              <ng-template ngbSlide id="three">
-                <div class="picsum-img-wrapper">
-                  <img [src]="imageRoot + image3" alt="Slide 3">
-                </div>
-              </ng-template>
-              <ng-template ngbSlide id="four">
-                <div class="picsum-img-wrapper">
-                  <img [src]="imageRoot + image4" alt="Slide 4">
-                </div>
-              </ng-template>
-            </ngb-carousel>
-            <div class="text-center">
-              <button (click)="navigateToSlide('four')">Go to Slide Four</button>
-              <button (click)="getToPrev()">Prev</button>
-              <button (click)="goToNext()">Next</button>
-              <button (click)="stopCarousel()">Pause</button>
-            </div> -->
-
-            <div class="image" *ngIf="data?.image != 0">
-              <ng-container *ngFor="let image of data?.image">
-                <img
-                  [src]="imageRoot + image"
-                  alt="Product image"
-                  class="img-fluid img-responsive mx-auto"
-                />
-              </ng-container>
+          <div class="mt-3"> <span class="fw-bold">المقاسات المتاحة</span>
+            <div class="colors">
+              <ul id="marker">
+                <li *ngFor="let property of data.properties">{{property.size}}</li>
+              </ul>
             </div>
-          </div>
-
-          <div class="d-flex" *ngIf="data?.image == 0">
-            <div class="alert alert-secondary">لم يتم اضافة اي صور!</div>
-          </div>
-
-          <!-- Card Info Hidden -->
-          <div
-            class="card-info displayed-info"
-            *ngIf="isDisplayData && !isDisplayShippingPrice"
-          >
-            <!-- Product Description -->
-            <div class="d-flex my-2">
-              <span style="width: 100%">{{ data.description }}</span>
-            </div>
-
-            <hr />
-
-            <!-- Rate -->
-            <!-- <div class="d-flex my-2">
-              <strong style="width: 140px">عدد التقييمات : </strong>
-              <span style="width: 100%">{{ data.reviews?.length }}</span>
-            </div> -->
-            <div class="d-flex my-2 rate-stars row">
-              <div class="col-4"></div>
-              <div class="col-4">
-                <ngb-rating
-                  style="width: 100%; font-size: 25px"
-                  [rate]="data.rate"
-                ></ngb-rating>
-              </div>
-              <div class="col-4"></div>
-            </div>
-
-            <hr />
-
-            <!-- Status Information -->
-            <div class="d-flex my-2">
-              <span style="width: 100%">
-                <span
-                  class="fw-bold fs-6 text-danger"
-                  *ngIf="data.status === -2"
-                  >محذوف</span
-                >
-                <span
-                  class="fw-bold fs-6 text-danger"
-                  *ngIf="data.status === -1"
-                  >مرفوض</span
-                >
-                <span
-                  class="fw-bold fs-6 text-primary"
-                  *ngIf="data.status === 0"
-                  >قيد الانتظار</span
-                >
-                <span
-                  class="fw-bold fs-6 text-success"
-                  *ngIf="data.status === 1"
-                  >مقبول</span
-                >
-              </span>
-            </div>
-
-            <hr />
-
-            <!-- Properites Information -->
-            <div class="row">
-              <div class="col-4"></div>
-              <div class="col-4">
-                <ul
-                  class="prop"
-                  *ngIf="data.properties.length !== 0"
-                  style="width: 100%"
-                >
-                  <li
-                    style="width: max-content"
-                    class="d-flex justify-content-between align-items-center mb-2"
-                    *ngFor="let property of data.properties"
-                  >
-                    <span class="mx-2">اللون : {{ property?.color }}</span> -
-                    <span class="mx-2">المقاس : {{ property?.size }}</span> -
-                    <span class="mx-2">الكمية : {{ property?.amount }}</span>
-                  </li>
+            <div class="mt-3"> <span class="fw-bold">الكمية المتاحة</span>
+              <div class="colors">
+                <ul id="marker">
+                  <li>{{data.total_amount}}</li>
                 </ul>
-                <span
-                  *ngIf="data.properties.length === 0"
-                  class="alert alert-warning text-center"
-                  style="width: 100%"
-                >
-                  لم يتم اضافة مواصفات
-                </span>
-              </div>
-              <div class="col-4"></div>
-            </div>
-
-            <hr />
-          </div>
-
-          <!-- Delivery Price hidden and shown according to value of isDisplayShippingPrice -->
-          <div class="delviryPrice" *ngIf="isDisplayShippingPrice">
-            <div class="row">
-              <div
-                class="col-md-4 col-12"
-                *ngFor="let item of shippingPrice | keyvalue"
-              >
-                <span class="countryName">
-                  <span class="key"> {{ item.key }}: </span>
-                  {{ item.value }} EGP
-                </span>
               </div>
             </div>
-          </div>
 
-          <!-- Btn To display Hidden Info -->
-          <div class="btn-toggle">
-            <button
-              type="button"
-              class="bttn btn-more"
-              (click)="toggleCardData()"
-              [hidden]="isDisplayShippingPrice"
-            >
-              المزيد من التفاصيل
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                fill="currentColor"
-                class="bi bi-arrow-down"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                />
-              </svg>
-            </button>
+            <div class="buttons d-flex flex-row mt-5 gap-3">
+              <button class="btn btn-primary" *ngIf="userRole == 'buyer'"
+                routerLink="/buyer/add-order/{{ data._id }}">طلب شراء</button>
+              <button class="btn btn-primary" *ngIf="!userRole" routerLink="/auth/login">سجل لتقديم طلب
+                شراء</button>
+              <button class=" btn btn-primary backward"
+                routerLink="/{{userRole ? userRole : 'sales-website'}}/all-products">
+                للرجوع لصفحة كل طلباتك <i class="fa-solid fa-arrow-rotate-left"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

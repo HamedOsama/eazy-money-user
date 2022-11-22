@@ -27,32 +27,16 @@
             <h3 class="mb-4">وسائل التواصل الاجتماعي الخاصة بنا</h3>
             <p>يمكنك متابعة اخر الاخبار من خلال الروابط التالية</p>
             <div class="social-links">
-              <a
-                class="border-1"
-                href="{{ contact_data?.faceBook }}"
-                target="blank"
-              >
+              <a class="border-1" href="{{ contact_data?.faceBook }}" target="blank">
                 <i class="fa fa-facebook-square"></i>
               </a>
-              <a
-                class="border-1"
-                href="{{ contact_data?.twitter }}"
-                target="blank"
-              >
+              <a class="border-1" href="{{ contact_data?.twitter }}" target="blank">
                 <i class="fa fa-twitter"></i>
               </a>
-              <a
-                class="border-1"
-                href="{{ contact_data?.instagram }}"
-                target="blank"
-              >
+              <a class="border-1" href="{{ contact_data?.instagram }}" target="blank">
                 <i class="fa fa-instagram"></i>
               </a>
-              <a
-                class="border-1"
-                href="{{ contact_data?.youtube }}"
-                target="blank"
-              >
+              <a class="border-1" href="{{ contact_data?.youtube }}" target="blank">
                 <i class="fa fa-youtube-play"></i>
               </a>
             </div>
@@ -64,61 +48,39 @@
           <form #form="ngForm" (ngSubmit)="sendContact(form)">
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>عنوان الرسالة</mat-label>
-              <input
-                type="text"
-                matInput
-                name="title"
-                ngModel
-                #title="ngModel"
-              />
+              <input type="text" matInput name="title" ngModel #title="ngModel" />
               <!-- <mat-error *ngIf="title.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
               </mat-error> -->
             </mat-form-field>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>الاسم</mat-label>
-              <input
-                type="text"
-                matInput
-                name="name"
-                ngModel
-                #name="ngModel"
-                required
-              />
+              <input type="text" matInput name="name" ngModel #name="ngModel" required />
               <mat-error *ngIf="name.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>البريد الالكتروني</mat-label>
-              <input
-                type="tel"
-                matInput
-                name="email"
-                ngModel
-                #email="ngModel"
-                required="{{ form.value.phone == '' }}"
-              />
-              <mat-error
-                *ngIf="email.hasError('email') && !email.hasError('required')"
-              >
-                رجاءا قم بادخال بريد الكتروني صحيح
-              </mat-error>
+              <input type="email" matInput name="email" ngModel #email="ngModel" placeholder="Ex. pat@example.com"
+                required="{{ form.value.phone == '' }}" email />
+              <!-- <input type="email" matInput name="email" ngModel #email="ngModel"
+                required="{{ form.value.phone == '' }}" /> -->
               <mat-error *ngIf="email.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
+              </mat-error>
+              <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+                رجاء قم بادخال بريد الكتروني صحيح
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>رقم الجوال</mat-label>
-              <input
-                type="tel"
-                matInput
-                name="phone"
-                ngModel
-                #phone="ngModel"
-                required="{{ form.value.email == '' }}"
-              />
+              <input type="tel" matInput name="phone" ngModel #phone="ngModel" minlength="11" maxlength="11"
+                required="{{ form.value.email == '' }}" />
+              <mat-error *ngIf="phone.hasError('minlength')">
+                رقم الهاتف غير صحيح
+              </mat-error>
               <mat-error *ngIf="phone.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
               </mat-error>
@@ -132,12 +94,7 @@
               </mat-error> -->
             </mat-form-field>
 
-            <button
-              type="submit"
-              class="d-block"
-              mat-raised-button
-              [disabled]="form.invalid"
-            >
+            <button type="submit" class="d-block" mat-raised-button [disabled]="form.invalid">
               ارسال
             </button>
           </form>

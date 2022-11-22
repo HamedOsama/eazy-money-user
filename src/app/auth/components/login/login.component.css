@@ -15,6 +15,7 @@
   background-attachment: fixed;
   z-index: -1;
 }
+
 .login .overlay .shadow {
   width: 100%;
   height: 100%;
@@ -27,6 +28,7 @@
   box-shadow: 0px 0px 20px 2px rgb(2 2 2 / 15%);
   border-radius: 5px;
 }
+
 .login .container .row .col-lg-8,
 .login .container .row .col-lg-4 {
   padding: 70px 0px;
@@ -35,6 +37,7 @@
   align-items: center;
   flex-direction: column;
 }
+
 .login .container .row .col-lg-4 {
   background-color: #056eb8;
 }
@@ -45,6 +48,7 @@
   margin: auto;
   text-align: right !important;
 }
+
 .login-form h2 {
   display: inline-block;
   color: #056eb8;
@@ -52,6 +56,7 @@
   padding-bottom: 7px;
   margin-bottom: 30px;
 }
+
 .login-form h2::after {
   content: "";
   position: absolute;
@@ -62,32 +67,38 @@
   border-radius: 5px;
   background-color: #056eb8;
 }
+
 .register-link {
   margin-top: 25px;
   letter-spacing: 1px;
   font-weight: 500;
   color: #737373;
 }
+
 .register-link a {
   color: #056eb8;
   transition: 0.4s;
 }
+
 .register-link a:hover {
   color: #056eb8 !important;
 }
+
 :host::ng-deep .mat-form-field {
   display: block;
   text-align: right;
   margin-bottom: 10px;
 }
+
 :host::ng-deep .mat-form-field-flex {
   background-color: #f1f1f1;
   box-shadow: 0px 0px 2px 1px rgb(0 0 0 / 10%);
 }
-:host::ng-deep
-  button.mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary {
+
+:host::ng-deep button.mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary {
   background-color: #056eb8;
 }
+
 /* *********** */
 .login .login-img {
   color: #f7f7f7 !important;
@@ -100,12 +111,14 @@
   background: #f7f7f742;
   padding: 5px 10px 10px;
 }
+
 .login .login-img h3 {
   font-size: 20px;
   letter-spacing: 1px;
   font-weight: 600;
   margin: 10px 0px 8px;
 }
+
 .login .login-img p {
   font-size: 14px;
   margin-bottom: 0px;
@@ -116,7 +129,20 @@
   .login .overlay {
     width: 50% !important;
   }
+
   .login-form {
     width: 80% !important;
   }
+}
+
+.password {
+  position: relative;
+}
+
+.fa-solid {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
 }

@@ -1,102 +1,33 @@
 <div class="add-requests py-5 section-styles">
   <div class="container">
     <h2 class="main-heading">اضافة طلب شراء</h2>
-    <div class="card">
-      <div class="container-fliud">
-        <div class="wrapper row">
-          <div class="preview col-md-6">
-            <div class="preview-pic tab-content">
-              <div class="tab-pane active" id="pic-1">
-                <img src="{{ apiRootImage }}{{ product?.image[0] }}" />
+    <div class="container mt-5 mb-5">
+      <div class="card">
+        <div class="row g-0">
+          <div class="col-md-6 border-end">
+            <div class="d-flex flex-column justify-content-center">
+              <div class="main_image"> <img [src]="this.currentImage ?? product?.image[0]" id="main_product_image"
+                  width="350" height="300">
               </div>
-              <!-- <div class="tab-pane" id="pic-2">
-                <img src="http://placekitten.com/400/252" />
+              <div class="thumbnail_images">
+                <ul id="thumbnail">
+                  <li *ngFor="let image of product?.image"><img (click)="changeImage(image)" src="{{image}}" width="70"
+                      height="50"></li>
+                </ul>
               </div>
-              <div class="tab-pane" id="pic-3">
-                <img src="http://placekitten.com/400/252" />
-              </div>
-              <div class="tab-pane" id="pic-4">
-                <img src="http://placekitten.com/400/252" />
-              </div>
-              <div class="tab-pane" id="pic-5">
-                <img src="http://placekitten.com/400/252" />
-              </div> -->
             </div>
-            <!-- <ul class="preview-thumbnail nav nav-tabs">
-              <li class="active">
-                <a data-target="#pic-1" data-toggle="tab"
-                  ><img src="http://placekitten.com/200/126"
-                /></a>
-              </li>
-              <li>
-                <a data-target="#pic-2" data-toggle="tab"
-                  ><img src="http://placekitten.com/200/126"
-                /></a>
-              </li>
-              <li>
-                <a data-target="#pic-3" data-toggle="tab"
-                  ><img src="http://placekitten.com/200/126"
-                /></a>
-              </li>
-              <li>
-                <a data-target="#pic-4" data-toggle="tab"
-                  ><img src="http://placekitten.com/200/126"
-                /></a>
-              </li>
-              <li>
-                <a data-target="#pic-5" data-toggle="tab"
-                  ><img src="http://placekitten.com/200/126"
-                /></a>
-              </li>
-            </ul> -->
           </div>
-          <div class="details col-md-6">
-            <h3 class="product-title">{{ product?.name }}</h3>
-            <div class="rating">
-              <div class="stars">
-                <ngb-rating [rate]="product?.rate"></ngb-rating>
+          <div class="col-md-6">
+            <div class="p-3 right-side">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="product-title">{{product?.name}}</h3>
+                <!-- <span class="heart"><i class='bx bx-heart'></i></span> -->
               </div>
-              <span class="review-no"
-                >{{ product?.reviews.length }} مراجعات</span
-              >
+              <div class="mt-2 pr-3 content">
+                <p>{{product?.description}}</p>
+              </div>
+              <h3 class="price">السعر الحالي: <span>E&#xa3; {{product?.sellPrice}}</span></h3>
             </div>
-            <p class="product-description">
-              {{ product?.description }}
-            </p>
-            <h4 class="price">
-              السعر الحالي: <span>{{ product?.sellPrice }}</span>
-            </h4>
-            <!-- <p class="vote">
-              <strong>91%</strong> of buyers enjoyed this product!
-              <strong>(87 votes)</strong>
-            </p> -->
-            <!-- <h5 class="sizes">
-              المقاسات المتاحة:
-              <span class="size" data-toggle="tooltip" title="small">s</span>
-              <span class="size" data-toggle="tooltip" title="medium">m</span>
-              <span class="size" data-toggle="tooltip" title="large">l</span>
-              <span class="size" data-toggle="tooltip" title="xtra large"
-                >xl</span
-              >
-            </h5> -->
-            <!-- <h5 class="colors">
-              الالوان المتوفرة:
-              <span
-                class="color orange not-available"
-                data-toggle="tooltip"
-                title="Not In store"
-              ></span>
-              <span class="color green"></span>
-              <span class="color blue"></span>
-            </h5> -->
-            <!-- <div class="action">
-              <button class="add-to-cart btn btn-default" type="button">
-                add to cart
-              </button>
-              <button class="like btn btn-default" type="button">
-                <span class="fa fa-heart"></span>
-              </button>
-            </div> -->
           </div>
         </div>
       </div>
@@ -104,29 +35,15 @@
 
     <div class="order-data">
       <h4 class="mx-4">اضافة البيانات</h4>
-      <mat-stepper
-        [orientation]="(stepperOrientation | async)!"
-        [linear]="isLinear"
-        #stepper
-      >
+      <mat-stepper [orientation]="(stepperOrientation | async)!" [linear]="isLinear" #stepper>
         <mat-step [stepControl]="propertiesForm.control" completed="false">
           <ng-template matStepLabel>مواصفات المنتج</ng-template>
-          <form
-            class="product-properties"
-            #propertiesForm="ngForm"
-            (ngSubmit)="propertiesFormSubmit(propertiesForm.value)"
-          >
-            <div
-              class="property"
-              *ngFor="let property of product?.properties; index as index"
-            >
+          <form class="product-properties" #propertiesForm="ngForm"
+            (ngSubmit)="propertiesFormSubmit(propertiesForm.value)">
+            <div class="property" *ngFor="let property of product?.properties; index as index">
               <mat-form-field appearance="fill">
                 <mat-label>اللون</mat-label>
-                <mat-select
-                  disabled="true"
-                  name="color{{ index }}"
-                  [(ngModel)]="property.color"
-                >
+                <mat-select disabled="true" name="color{{ index }}" [(ngModel)]="property.color">
                   <mat-option [value]="property?.color" selected="true">
                     {{ property?.color }}
                   </mat-option>
@@ -134,91 +51,51 @@
               </mat-form-field>
               <mat-form-field appearance="fill">
                 <mat-label>المقاس</mat-label>
-                <mat-select
-                  disabled="true"
-                  name="size{{ index }}"
-                  [(ngModel)]="property.size"
-                >
+                <mat-select disabled="true" name="size{{ index }}" [(ngModel)]="property.size">
                   <mat-option [value]="property?.size" selected="true">{{
                     property?.size
-                  }}</mat-option>
+                    }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field appearance="fill">
                 <mat-label>العدد</mat-label>
                 <mat-select name="amount{{ index }}" ngModel>
-                  <mat-option
-                    *ngFor="
+                  <mat-option *ngFor="
                       let item of fakeArray(property?.amount + 1);
                       index as index
-                    "
-                    [value]="index"
-                    >{{ index }}</mat-option
-                  >
+                    " [value]="index">{{ index }}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <form>
               <mat-form-field appearance="fill">
                 <mat-label>ادخل سعر البيع</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  name="newPrice"
-                  ngModel
-                  #newPrice="ngModel"
-                  required
-                />
+                <input matInput type="number" name="newPrice" ngModel #newPrice="ngModel" required />
                 <mat-error *ngIf="newPrice.hasError('required')">
                   هذا الحقل <strong>اجباري</strong>
                 </mat-error>
               </mat-form-field>
             </form>
             <div>
-              <button
-                mat-button
-                type="submit"
-                (click)="returnNewPrice(newPrice)"
-                class="bg-success d-block m-auto"
-                [disabled]="newPrice.invalid"
-              >
+              <button mat-button type="submit" (click)="returnNewPrice(newPrice)" class="bg-success d-block m-auto"
+                [disabled]="newPrice.invalid">
                 تاكيد طلب المنتجات
               </button>
             </div>
           </form>
         </mat-step>
-        <mat-step
-          [stepControl]="customerDataForm.control"
-          label="بيانات العميل"
-          completed="false"
-        >
+        <mat-step [stepControl]="customerDataForm.control" label="بيانات العميل" completed="false">
           <form #customerDataForm="ngForm">
             <mat-form-field appearance="fill">
               <mat-label>اسم العميل</mat-label>
-              <input
-                type="text"
-                matInput
-                name="name"
-                ngModel
-                required
-                #name="ngModel"
-              />
+              <input type="text" matInput name="name" ngModel required #name="ngModel" />
               <mat-error *ngIf="name.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
               </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="custom-margin-center">
               <mat-label>رقم موبايل العميل</mat-label>
-              <input
-                type="tel"
-                matInput
-                name="phone"
-                ngModel
-                required
-                minlength="11"
-                maxlength="11"
-                #phone="ngModel"
-              />
+              <input type="tel" matInput name="phone" ngModel required minlength="11" maxlength="11" #phone="ngModel" />
               <mat-error *ngIf="phone.hasError('minlength' || 'maxlength')">
                 رقم الهاتف يجب ان لا يقل او يزيد عن <strong>11 رقم</strong>
               </mat-error>
@@ -228,13 +105,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>اسم المحل</mat-label>
-              <input
-                type="text"
-                matInput
-                name="storeName"
-                #storeName="ngModel"
-                ngModel
-              />
+              <input type="text" matInput name="storeName" #storeName="ngModel" ngModel />
               <mat-error *ngIf="storeName.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
               </mat-error>
@@ -242,10 +113,7 @@
             <mat-form-field appearance="fill">
               <mat-label>المحافظة</mat-label>
               <mat-select name="city" ngModel #city="ngModel" required>
-                <mat-option
-                  *ngFor="let governorate of governorates"
-                  [value]="governorate"
-                >
+                <mat-option *ngFor="let governorate of governorates" [value]="governorate">
                   {{ governorate }}
                 </mat-option>
               </mat-select>
@@ -262,13 +130,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>العنوان بالتفصيل</mat-label>
-              <textarea
-                matInput
-                name="address"
-                ngModel
-                #address="ngModel"
-                required
-              ></textarea>
+              <textarea matInput name="address" ngModel #address="ngModel" required></textarea>
 
               <mat-error *ngIf="address.hasError('required')">
                 هذا الحقل <strong>اجباري</strong>
@@ -277,13 +139,8 @@
 
             <div class="d-flex justify-content-between align-items-center">
               <button mat-button matStepperPrevious class="">رجوع</button>
-              <button
-                mat-button
-                matStepperNext
-                [disabled]="customerDataForm.invalid"
-                (click)="customerDataFormSubmit(customerDataForm.value)"
-                class="bg-success"
-              >
+              <button mat-button matStepperNext [disabled]="customerDataForm.invalid"
+                (click)="customerDataFormSubmit(customerDataForm.value)" class="bg-success">
                 تاكيد البيانات
               </button>
             </div>
@@ -313,12 +170,7 @@
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <button mat-button matStepperPrevious>رجوع</button>
-            <button
-              type="submit"
-              class="bg-success"
-              [disabled]="orderSent"
-              (click)="orderFormSubmit()"
-            >
+            <button type="submit" class="bg-success" [disabled]="orderSent" (click)="orderFormSubmit()">
               تاكيد ارسال الطلب
             </button>
             <button mat-button (click)="stepper.reset()" class="bg-danger">

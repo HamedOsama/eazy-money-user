@@ -13,58 +13,30 @@
     <div class="transfers" *ngIf="!loading">
       <div class="withdrawal-request">
         <h3>تقديم طلب سحب</h3>
-        <div
-          class="alert alert-danger waiting"
-          role="alert"
-          *ngIf="!user.payment_method"
-        >
+        <div class="alert alert-danger waiting" role="alert" *ngIf="!user.payment_method">
           لا يمكنك تقديم طلب سحب الا بعد تسجيل طريقة الدفع الخاصة بك لتحويل
           المبلغ عليها
           <br />
-          <span
-            >لتعديل طريقة الدفع؟
-            <a routerLink="/buyer/profile">أضغط هنا</a></span
-          >
+          <span>لتعديل طريقة الدفع؟
+            <a routerLink="/buyer/profile">أضغط هنا</a></span>
         </div>
-        <form
-          #withdrawalForm="ngForm"
-          (ngSubmit)="addWithdrawlRequest(withdrawalForm.value)"
-          *ngIf="user.payment_method"
-        >
-          <input
-            type="text"
-            placeholder="ادخل قيمة السحب"
-            name="withdrawnAmount"
-            ngModel
-            #withdrawnAmount="ngModel"
-            (focus)="calcBalanceOnFocus()"
-            (keyup)="calcBalanceOnChange(withdrawnAmount)"
-            id="withdrawalInput"
-            required
-          />
-          <button
-            class="btn"
-            [disabled]="
+        <form #withdrawalForm="ngForm" (ngSubmit)="addWithdrawlRequest(withdrawalForm.value)"
+          *ngIf="user.payment_method">
+          <input type="number" placeholder="ادخل قيمة السحب" name="withdrawnAmount" ngModel #withdrawnAmount="ngModel"
+            (focus)="calcBalanceOnFocus()" (keyup)="calcBalanceOnChange(withdrawnAmount)" id="withdrawalInput"
+            required />
+          <button class="btn" [disabled]="
               fireBalanceErrorMessage ||
               fireBalanceErrorMessage2 ||
               sendingRequest ||
               withdrawalForm.invalid
-            "
-          >
+            ">
             &#x2190;
           </button>
-          <div
-            class="alert alert-danger"
-            role="alert"
-            *ngIf="fireBalanceErrorMessage"
-          >
+          <div class="alert alert-danger" role="alert" *ngIf="fireBalanceErrorMessage">
             رصيدك غير كافي
           </div>
-          <div
-            class="alert alert-danger"
-            role="alert"
-            *ngIf="fireBalanceErrorMessage2"
-          >
+          <div class="alert alert-danger" role="alert" *ngIf="fireBalanceErrorMessage2">
             قيمة السحب يجب الا تقل عن 100 جنيه
           </div>
         </form>

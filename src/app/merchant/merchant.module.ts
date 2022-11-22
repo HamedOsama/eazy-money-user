@@ -19,6 +19,7 @@ import { MerchantBalanceChartComponent } from './components/merchant-charts-comp
 import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { MerchantAllProductsComponent } from './components/merchant-all-products/merchant-all-products.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,9 @@ import { MerchantOrdersComponent } from './components/merchant-orders/merchant-o
     NgbRatingModule,
     MaterialsModule,
     NgbModule,
+    NgxDropzoneModule
+
   ],
   exports: [MerchantAllProductsChartComponent],
 })
-export class MerchantModule {}
+export class MerchantModule { }

@@ -36,4 +36,4 @@ import { MerchantModule } from './merchant/merchant.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

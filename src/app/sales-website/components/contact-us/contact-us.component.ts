@@ -30,10 +30,12 @@ export class ContactUsComponent implements OnInit {
       }
     });
 
-    console.log(contactData);
 
     this.ms.sendAMessageForUs(contactData).subscribe(
-      (res) => {},
+      (res) => {
+    form.reset();
+
+      },
       (error) => {
         if (error.error.message.includes('Phone number is invalid')) {
           Swal.fire({

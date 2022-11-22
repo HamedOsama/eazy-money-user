@@ -21,6 +21,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { UserModel } from '../../../helper/modals/user.model';
 import { GeneralProductsService } from 'src/app/helper/services/general-products.service';
 import { MerchantProductsService } from 'src/app/helper/services/merchant-products.service';
+import { MainService } from 'src/app/shared/services/main.service';
 @Component({
   selector: 'app-merchant-all-products',
   templateUrl: './merchant-all-products.component.html',
@@ -28,8 +29,7 @@ import { MerchantProductsService } from 'src/app/helper/services/merchant-produc
   providers: [NgbRatingConfig],
 })
 export class MerchantAllProductsComponent
-  implements AfterViewInit, OnDestroy, OnInit
-{
+  implements AfterViewInit, OnDestroy, OnInit {
   loading: boolean;
   waiting: boolean;
   displayedColumns: string[] = [
@@ -107,9 +107,8 @@ export class MerchantAllProductsComponent
   };
   sizes = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL'];
   selectedProductStatus: any;
-
-  files: any;
-
+  images: any;
+  files: File[] = [];
   productStatus: any;
   Object = Object;
   productShippingPrice: any;
@@ -121,7 +120,8 @@ export class MerchantAllProductsComponent
     private toast: ToastrService,
     private gps: GeneralProductsService,
     private mps: MerchantProductsService,
-    private config: NgbRatingConfig
+    private config: NgbRatingConfig,
+    private mainService: MainService
   ) {
     this.loading = false;
     this.waiting = false;
@@ -176,7 +176,7 @@ export class MerchantAllProductsComponent
           this.allProducts = res?.data;
           this.dataSource = new MatTableDataSource(this.allProducts);
           this.productLength = res?.totalLength;
-          this.shipping_price = res.data[0].shipping_price;
+          // this.shipping_price = res.data[0].shipping_price;
           this.waiting = false;
         },
         error: (err) => {
@@ -186,20 +186,6 @@ export class MerchantAllProductsComponent
       })
     );
   }
-
-  // Get All Sellers
-  // getAllSellers() {
-  //   this.subscription.add(
-  //     this.userService.getAllSellers().subscribe({
-  //       next: (res: any) => {
-  //         this.allSellers = res?.data;
-  //       },
-  //       error: (err) => {
-  //         this.toast.error(err?.error?.message);
-  //       },
-  //     })
-  //   );
-  // }
 
   // Get Product Details By Modal
   productDetails(productData: any) {
@@ -219,8 +205,14 @@ export class MerchantAllProductsComponent
   }
 
   updateShippingPrice(gov: any, price: any) {
-    this.shipping_price[gov] = price;
-    this.toast.success(`تم تعديل سعر شحن محافظة ${gov}`);
+    if (this.editedProduct) {
+      this.shipping_price = this.editedProduct.shipping_price;
+      this.editedProduct.shipping_price[gov] = price;
+      this.toast.success(`تم تعديل سعر شحن محافظة ${gov}`);
+    } else {
+      this.shipping_price[gov] = price;
+      this.toast.success(`تم تعديل سعر شحن محافظة ${gov}`);
+    }
   }
 
   // onFileSelected(event: any) {
@@ -228,50 +220,76 @@ export class MerchantAllProductsComponent
   //   this.imageSelected = true;
   // }
 
-  showPreview(event: any) {
-    // console.log(event.target.files);
-    // [...event.target.files].map((file: any) => {
-    //   this.files.push(file.name);
-    //   console.log(file);
-    // });
-    this.files = event.target.files;
-    this.selectedImage = <File>event.target.files;
-  }
 
-  addProduct(data: any) {
+
+  showPreview(event: any) {
+    this.selectedImage = <File>event.target.files;
+    console.log(this.selectedImage);
     const fd = new FormData();
     for (let i = 0; i < this.selectedImage.length; i++) {
-      fd.append('avatar', this.selectedImage[i], this.selectedImage[i].name);
+      fd.append('avatar', this.selectedImage[i], this.selectedImage[i]?.name);
     }
+    this.mainService.uploadImages(fd, this.token).subscribe((res: any) => {
+      this.images = res.data;
+    })
+  }
 
-    const productModel = {
+
+
+  onSelect(event: any) {
+    this.selectedImage = <File>event.addedFiles;
+    // console.log(this.selectedImage);
+    // const fd = new FormData();
+    // for (let i = 0; i < this.selectedImage.length; i++) {
+    //   fd.append('avatar', this.selectedImage[i], this.selectedImage[i]?.name);
+    // }
+    // this.mainService.uploadImages(fd, this.token).subscribe((res: any) => {
+    //   this.images = res.data;
+    // })
+  }
+
+  onRemove(event: any) {
+    console.log(event);
+    this.selectedImage.splice(this.selectedImage.indexOf(event), 1);
+  }
+
+
+
+  addProduct(data: any) {
+    const productModel: any = {
       name: data?.name,
       originalPrice: data?.originalPrice,
       category: data?.category,
       description: data?.description,
       properties: this.productProperties,
+      seller: data?.seller,
       shipping_price: this.shipping_price,
     };
+    const fd = new FormData();
+    for (let i = 0; i < this.selectedImage.length; i++) {
+      fd.append('avatar', this.selectedImage[i], this.selectedImage[i]?.name);
+    }
 
-    // console.log(productModel);
+    this.mainService.uploadImages(fd, this.token).subscribe((res: any) => {
+      productModel.image = res.data;
+      this.subscription.add(
+        this.mps.addProduct(productModel, this.token).subscribe({
+          next: (res: any) => {
+            console.log(res);
+            this.toast.success('تم اضافة المنتج بنجاح');
+            this.getYourOwnProducts(this.paginationObject, this.token);
+          },
+          error: (err) => {
+            this.toast.error(err?.error?.message, 'خطأ في اضافة المنتج');
+          },
+        })
+      );
+    })
 
-    this.subscription.add(
-      this.mps.addProduct(productModel, this.token).subscribe({
-        next: (res: any) => {
-          console.log(res);
-          this.mps
-            .updateProduct(res?.body?._id, fd, this.token)
-            .subscribe((res) => {
-              console.log(res);
-              this.toast.success('تم اضافة المنتج بنجاح');
-              this.getYourOwnProducts(this.paginationObject, this.token);
-            });
-        },
-        error: (err) => {
-          this.toast.error(err?.error?.message, 'خطأ في اضافة المنتج');
-        },
-      })
-    );
+
+
+
+
   }
 
   // ##### Edit Product
@@ -288,14 +306,8 @@ export class MerchantAllProductsComponent
   editProduct(id: any, data: any) {
     this.waiting = true;
 
-    const fd = new FormData();
 
-    for (let i = 0; i < this.selectedImage?.length; i++) {
-      fd.append('avatar', this.selectedImage[i], this.selectedImage[i].name);
-    }
-
-    const productModel = {
-      image: '',
+    const productModel: any = {
       name: data?.name,
       originalPrice: data?.originalPrice,
       category: data?.category,
@@ -304,28 +316,15 @@ export class MerchantAllProductsComponent
       seller: data?.seller,
     };
 
-    if (Object.keys(fd).length === 0) {
-      productModel.image = this.editedProduct?.image;
+    if (this.images) {
+      productModel.image = this.images;
     }
 
-    // console.log(productModel);
 
     this.subscription.add(
       this.mps.updateProduct(id, productModel, this.token).subscribe({
         next: (res: any) => {
-          if (res) {
-            this.mps.updateProduct(id, fd, this.token).subscribe({
-              next: (res: any) => {
-                this.toast.success('تم تعديل المنتج بنجاح', 'تعديل منتج ');
-                this.getYourOwnProducts(this.paginationObject, this.token);
-                this.waiting = false;
-              },
-              error: (err) => {
-                this.toast.error(err?.error?.message);
-                this.waiting = false;
-              },
-            });
-          }
+          this.waiting = false;
         },
         error: (err) => {
           this.toast.error(err?.error?.message);

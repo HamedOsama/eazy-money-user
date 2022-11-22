@@ -18,9 +18,10 @@ export class ProductCardComponent {
   productData: ProductData | any;
   imageRoot = environment.apiRootImage;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   openProductdDetails(id: any) {
+    console.log(id);
     if (!this.userRole) {
       this.router.navigate(['sales-website/product-details/' + id]);
     } else {

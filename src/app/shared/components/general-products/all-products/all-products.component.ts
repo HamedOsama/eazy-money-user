@@ -56,7 +56,7 @@ export class AllProductsComponent implements OnInit {
   //   }
   // }
 
-  constructor(private gps: GeneralProductsService) {}
+  constructor(private gps: GeneralProductsService) { }
 
   ngOnInit() {
     this.getAllProduct(this.paginationObject);
@@ -66,8 +66,10 @@ export class AllProductsComponent implements OnInit {
 
   // Function to get all Product
   getAllProduct(pagination: any) {
+    this.loadingData = true;
     this.gps.getAllProducts(pagination).subscribe({
       next: (res: any) => {
+        console.log(res);
         if (res.message === 'succeeded') {
           this.allProducts = res?.body;
           this.productLength = res?.totalLength;

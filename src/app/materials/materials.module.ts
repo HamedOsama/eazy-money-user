@@ -17,6 +17,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const materials = [
   MatProgressBarModule,
@@ -38,10 +39,11 @@ const materials = [
   MatDividerModule,
   MatTooltipModule,
   MatSortModule,
+  MatDialogModule,
 ];
 
 @NgModule({
   imports: [materials],
   exports: [materials],
 })
-export class MaterialsModule {}
+export class MaterialsModule { }

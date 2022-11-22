@@ -33,4 +33,4 @@ import { MaterialsModule } from '../materials/materials.module';
   ],
   exports: [NavbarComponent, FooterComponent],
 })
-export class SalesWebsiteModule {}
+export class SalesWebsiteModule { }
