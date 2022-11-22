@@ -306,7 +306,6 @@ export class MerchantAllProductsComponent
   editProduct(id: any, data: any) {
     this.waiting = true;
 
-
     const productModel: any = {
       name: data?.name,
       originalPrice: data?.originalPrice,
@@ -314,24 +313,67 @@ export class MerchantAllProductsComponent
       description: data?.description,
       properties: this.productProperties,
       seller: data?.seller,
+      image: data.image
     };
 
-    if (this.images) {
-      productModel.image = this.images;
+    const fd = new FormData();
+    for (let i = 0; i < this.selectedImage.length; i++) {
+      fd.append('avatar', this.selectedImage[i], this.selectedImage[i]?.name);
     }
 
-
-    this.subscription.add(
-      this.mps.updateProduct(id, productModel, this.token).subscribe({
-        next: (res: any) => {
-          this.waiting = false;
-        },
-        error: (err) => {
-          this.toast.error(err?.error?.message);
-          this.waiting = false;
-        },
+    if (this.selectedImage.length) {
+      console.log(this.selectedImage.length)
+      productModel.image = fd;
+      this.mainService.uploadImages(fd, this.token).subscribe((res: any) => {
+        productModel.image = res.data;
+        this.subscription.add(
+          this.mps.updateProduct(id, productModel, this.token).subscribe({
+            next: (res: any) => {
+              console.log(res);
+              this.toast.success('تم اضافة المنتج بنجاح');
+              this.getYourOwnProducts(this.paginationObject, this.token);
+            },
+            error: (err) => {
+              this.toast.error(err?.error?.message, 'خطأ في اضافة المنتج');
+            },
+          })
+        );
       })
-    );
+    } else {
+      console.log(this.selectedImage.length)
+      this.subscription.add(
+        this.mps.updateProduct(id, productModel, this.token).subscribe({
+          next: (res: any) => {
+            this.waiting = false;
+          },
+          error: (err) => {
+            this.toast.error(err?.error?.message);
+            this.waiting = false;
+          },
+        })
+      );
+    }
+
+    // this.mainService.uploadImages(fd, this.token).subscribe((res: any) => {
+    //   productModel.image = res.data;
+    //   this.subscription.add(
+    //     this.mps.addProduct(productModel, this.token).subscribe({
+    //       next: (res: any) => {
+    //         console.log(res);
+    //         this.toast.success('تم اضافة المنتج بنجاح');
+    //         this.getYourOwnProducts(this.paginationObject, this.token);
+    //       },
+    //       error: (err) => {
+    //         this.toast.error(err?.error?.message, 'خطأ في اضافة المنتج');
+    //       },
+    //     })
+    //   );
+    // })
+
+
+
+
+
   }
 
   // ##### Delete Product
